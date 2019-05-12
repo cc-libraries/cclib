@@ -9,8 +9,8 @@
  *
  * author: hello_chenchen <https://github.com/hello-chenchen>
  **********************************************************************************/
-#ifndef CCLIB_CCALGORITHM_INSERTION_SORT_H
-#define CCLIB_CCALGORITHM_INSERTION_SORT_H
+#ifndef CCLIB_CCALGORITHM_SORT_H
+#define CCLIB_CCALGORITHM_SORT_H
 #include <vector>
 #include <iterator>
 #include <iostream>
@@ -26,9 +26,7 @@ namespace cclib {
                     int j;
                     for(int p = 1; p < sortValue.size(); p++) {
                         Comparable tmp = sortValue[p];
-                        // cout << "tmp: " << tmp << " p: " << p << endl;
                         for( j = p; j > 0 && tmp < sortValue[j - 1]; j--) {
-                            // cout << "sortValue[j - 1]: " << sortValue[j - 1] << endl;
                             sortValue[j] = sortValue[j-1];
                             sortValue[j-1] = tmp;
                         }
@@ -39,4 +37,4 @@ namespace cclib {
     }
 }
 
-#endif   //CCLIB_CCALGORITHM_INSERTION_SORT_H
+#endif   //CCLIB_CCALGORITHM_SORT_H

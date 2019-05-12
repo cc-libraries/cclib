@@ -22,7 +22,9 @@ void insertionSortTest() {
     cout << "cc[0]: " << cc->at(0) << " cc[1]: " << cc->at(1)
     << " cc[2]: " << cc->at(2) << " cc[3]: " << cc->at(3) << endl;
     delete cc;
+    cc = NULL;
     delete aa;
+    aa = NULL;
 }
 
 int main(int argc, char const *argv[])
