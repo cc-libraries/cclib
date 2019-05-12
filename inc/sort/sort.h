@@ -12,6 +12,8 @@
 #ifndef CCLIB_CCALGORITHM_INSERTION_SORT_H
 #define CCLIB_CCALGORITHM_INSERTION_SORT_H
 #include <vector>
+#include <iterator>
+#include <iostream>
 
 using namespace std;
 
@@ -20,7 +22,17 @@ namespace cclib {
         template<typename Comparable>
         class Sort {
             public:
-                void insertionSort(vector<Comparable> & sortValue) {
+                void insertionSort(vector<Comparable>& sortValue) {
+                    int j;
+                    for(int p = 1; p < sortValue.size(); p++) {
+                        Comparable tmp = sortValue[p];
+                        // cout << "tmp: " << tmp << " p: " << p << endl;
+                        for( j = p; j > 0 && tmp < sortValue[j - 1]; j--) {
+                            // cout << "sortValue[j - 1]: " << sortValue[j - 1] << endl;
+                            sortValue[j] = sortValue[j-1];
+                            sortValue[j-1] = tmp;
+                        }
+                    }
 
                 }
         };
