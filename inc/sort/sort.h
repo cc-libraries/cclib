@@ -31,7 +31,18 @@ namespace cclib {
                             sortValue[j-1] = tmp;
                         }
                     }
+                }
 
+                void shellSort(vector<Comparable>& sortValue) {
+                    for(int gap = sortValue.size() / 2; gap > 0; gap /= 2) {
+                        for(int i = gap; i < sortValue.size(); i++) {
+                            Comparable tmp = sortValue[i];
+                            for(int j = i; j >= gap && tmp < sortValue[j - gap]; j -= gap) {
+                                sortValue[j] = sortValue[j - gap];
+                                sortValue[j-gap] = tmp;
+                            }
+                        }
+                    }
                 }
         };
     }
