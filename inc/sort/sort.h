@@ -14,6 +14,7 @@
 #include <vector>
 #include <iterator>
 #include <iostream>
+// #include <algorithm>
 
 using namespace std;
 
@@ -42,6 +43,37 @@ namespace cclib {
                                 sortValue[j-gap] = tmp;
                             }
                         }
+                    }
+                }
+
+
+                inline int leftChild(int i) {
+                    return 2 * i + 1;
+                }
+                inline void percDown(vector<Comparable>& sortValue, int i, int n) {
+                    int child;
+                    Comparable tmp;
+                    for(tmp = sortValue[i]; leftChild(i) < n; i = child) {
+                        child = leftChild(i);
+                        if(child != n - 1 && sortValue[child] < sortValue[child + 1]) {
+                            child++;
+                        }
+                        if(tmp < sortValue[child]) {
+                            sortValue[i] = sortValue[child];
+                        } else {
+                            break;
+                        }
+                    }
+
+                    sortValue[i] = tmp;
+                }
+                void heapSort(vector<Comparable>& sortValue) {
+                    for(int i = sortValue.size() / 2; i >= 0; i--) {
+                        percDown(sortValue, i, sortValue.size());
+                    }
+                    for(int j = sortValue.size() - 1; j > 0; j--) {
+                        swap(sortValue[0], sortValue[j]);
+                        percDown(sortValue, 0, j);
                     }
                 }
         };
