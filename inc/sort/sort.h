@@ -1,7 +1,7 @@
 /*********************************************************************
  * cc-algorithm
  *
- * Copyright (c) 2019 cc-clipboard contributors:
+ * Copyright (c) 2019 cc-algorithm contributors:
  *   - hello_chenchen <https://github.com/hello-chenchen>
  *
  * MIT License <https://github.com/hello-chenchen/cc-algorithm/blob/master/LICENSE>
@@ -9,17 +9,16 @@
  *
  * author: hello_chenchen <https://github.com/hello-chenchen>
  **********************************************************************************/
-#ifndef CCLIB_CCALGORITHM_SORT_H
-#define CCLIB_CCALGORITHM_SORT_H
+#ifndef CCLIB_ALGORITHM_SORT_H
+#define CCLIB_ALGORITHM_SORT_H
 #include <vector>
 #include <iterator>
 #include <iostream>
-// #include <algorithm>
 
 using namespace std;
 
 namespace cclib {
-    namespace ccalgorithm {
+    namespace algorithm {
         template<typename Comparable>
         class Sort {
             public:
@@ -80,4 +79,4 @@ namespace cclib {
     }
 }
 
-#endif   //CCLIB_CCALGORITHM_SORT_H
+#endif   //CCLIB_ALGORITHM_SORT_H

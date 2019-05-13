@@ -1,14 +1,15 @@
-//COMPILE: g++ test.cc
+//COMPILE: g++ test.cc -std=c++11
 #include <vector>
 #include <iostream>
 #include <time.h>
 
 #include "./../inc/sort/sort.h"
+#include "./../cclib-common/inc/util/util.h"
 
 using namespace std;
 
 using namespace cclib;
-using namespace ccalgorithm;
+using namespace cclib::algorithm;
 
 inline vector<int> getStackVectorValue() {
     vector<int> vectorValue;
@@ -22,12 +23,9 @@ inline vector<int> getStackVectorValue() {
     return vectorValue;
 }
 inline void coutVectorValue(vector<int> value) {
-    cout << "vector ";
-    for(int i = 0; i < value.size(); i++) {
-        cout << " value[" << i << "]: " << value[i];
-    }
-    cout << endl;
+    cclib::common::util::printVectorValue(value);
 }
+
 void insertionSortTest(Sort<int>* sortClass) {
     vector<int> sortValue = getStackVectorValue();
     sortClass->insertionSort(sortValue);
