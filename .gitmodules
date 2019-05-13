@@ -1,3 +1,3 @@
 [submodule "cclib-common"]
 	path = cclib-common
-	url = https://github.com/hello-chenchen/cclib-common.git
+	url = https://github.com/cc-libraries/cclib-common.git
