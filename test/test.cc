@@ -54,15 +54,12 @@ int main(int argc, char const *argv[])
 {
     /* code */
     Sort<int>* sortClass = new Sort<int>();
-    clock_t start,end;
-    start = clock();
-    insertionSortTest(sortClass);
-    end = clock();
-    cout << "insertion sort time spend: " << timeComplexityCalculate(start, end) << endl;
-    start = clock();
-    shellSortTest(sortClass);
-    end = clock();
-    cout << "shell sort time spend: " << timeComplexityCalculate(start, end) << endl;
+    // clock_t start,end;
+    // start = clock();
+    // insertionSortTest(sortClass);
+    // end = clock();
+    // cout << "insertion sort time spend: " << timeComplexityCalculate(start, end) << endl;
+    heapSortTest(sortClass);
     delete sortClass;
     sortClass = NULL;
     return 0;

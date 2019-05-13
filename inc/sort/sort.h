@@ -47,25 +47,25 @@ namespace cclib {
                 }
 
 
-                inline int leftChild(int i) {
-                    return 2 * i + 1;
+                inline int leftChild(int dad) {
+                    return 2 * dad + 1; //NOTICE:son
                 }
-                inline void percDown(vector<Comparable>& sortValue, int i, int n) {
+                inline void percDown(vector<Comparable>& sortValue, int start, int end) {
                     int child;
                     Comparable tmp;
-                    for(tmp = sortValue[i]; leftChild(i) < n; i = child) {
-                        child = leftChild(i);
-                        if(child != n - 1 && sortValue[child] < sortValue[child + 1]) {
+                    for(tmp = sortValue[start]; leftChild(start) < end; start = child) {
+                        child = leftChild(start);
+                        if(child != end - 1 && sortValue[child] < sortValue[child + 1]) {
                             child++;
                         }
                         if(tmp < sortValue[child]) {
-                            sortValue[i] = sortValue[child];
+                            sortValue[start] = sortValue[child];
                         } else {
                             break;
                         }
                     }
 
-                    sortValue[i] = tmp;
+                    sortValue[start] = tmp;
                 }
                 void heapSort(vector<Comparable>& sortValue) {
                     for(int i = sortValue.size() / 2; i >= 0; i--) {
