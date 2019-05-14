@@ -13,6 +13,7 @@
         "memory": "cpp",
         "type_traits": "cpp",
         "string": "cpp",
-        "string_view": "cpp"
+        "string_view": "cpp",
+        "iosfwd": "cpp"
     }
 }

@@ -15,6 +15,8 @@
 #include <iterator>
 #include <iostream>
 
+#include "./../../cclib-common/inc/util/util.h"
+
 using namespace std;
 
 namespace cclib {
@@ -47,24 +49,40 @@ namespace cclib {
 
 
                 inline int leftChild(int dad) {
-                    return 2 * dad + 1; //NOTICE:son
+                    return 2 * dad + 1; //NOTICE: left child in array or vector
                 }
                 inline void percDown(vector<Comparable>& sortValue, int start, int end) {
-                    int child;
-                    Comparable tmp;
-                    for(tmp = sortValue[start]; leftChild(start) < end; start = child) {
-                        child = leftChild(start);
-                        if(child != end - 1 && sortValue[child] < sortValue[child + 1]) {
-                            child++;
+                    int leftChildNode, parentNode;
+                    parentNode = start;
+                    leftChildNode = leftChild(parentNode);
+                    while(leftChildNode <= end) {
+                        //COMMENT: get max node between left to right
+                        if(leftChildNode + 1 <= end && sortValue[leftChildNode] < sortValue[leftChildNode + 1]) {
+                            leftChildNode++;
                         }
-                        if(tmp < sortValue[child]) {
-                            sortValue[start] = sortValue[child];
+                        if(sortValue[parentNode] > sortValue[leftChildNode]) {
+                            return;
                         } else {
-                            break;
+                            swap(sortValue[parentNode], sortValue[leftChildNode]);
+                            parentNode = leftChildNode;
+                            leftChildNode = leftChild(parentNode);
                         }
                     }
 
-                    sortValue[start] = tmp;
+                    //NOTICE: method 2 not clearly than method 1
+                    // Comparable tmp;
+                    // for(tmp = sortValue[parentNode]; leftChild(parentNode) < end; parentNode = leftChildNode) {
+                    //     leftChildNode = leftChild(parentNode);
+                    //     if(leftChildNode != end - 1 && sortValue[leftChildNode] < sortValue[leftChildNode + 1]) {
+                    //         leftChildNode++;
+                    //     }
+                    //     if(tmp < sortValue[leftChildNode]) {
+                    //         sortValue[parentNode] = sortValue[leftChildNode];
+                    //     } else {
+                    //         break;
+                    //     }
+                    // }
+                    // sortValue[parentNode] = tmp;
                 }
                 void heapSort(vector<Comparable>& sortValue) {
                     for(int i = sortValue.size() / 2; i >= 0; i--) {
@@ -72,7 +90,8 @@ namespace cclib {
                     }
                     for(int j = sortValue.size() - 1; j > 0; j--) {
                         swap(sortValue[0], sortValue[j]);
-                        percDown(sortValue, 0, j);
+                        percDown(sortValue, 0, j - 1);
+                        // percDown(sortValue, 0, j); //NOTICE: method 2
                     }
                 }
         };

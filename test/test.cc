@@ -20,6 +20,8 @@ inline vector<int> getStackVectorValue() {
     vectorValue.push_back(15);
     vectorValue.push_back(11);
     vectorValue.push_back(2);
+    // vectorValue.push_back(22);
+    cclib::common::util::printVectorValue(vectorValue);
     return vectorValue;
 }
 inline void coutVectorValue(vector<int> value) {
