@@ -16,7 +16,7 @@
 #include <iostream>
 #include <limits>
 
-#include "./../../cclib-common/inc/util/util.h"
+#include "./../../../cclib-common/inc/util/util.h"
 
 using namespace std;
 

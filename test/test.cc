@@ -3,7 +3,7 @@
 #include <iostream>
 #include <time.h>
 
-#include "./../inc/sort/sort.h"
+#include "./../inc/algorithm/sort/sort.h"
 #include "./../cclib-common/inc/util/util.h"
 
 using namespace std;
