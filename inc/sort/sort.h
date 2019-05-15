@@ -14,6 +14,7 @@
 #include <vector>
 #include <iterator>
 #include <iostream>
+#include <limits>
 
 #include "./../../cclib-common/inc/util/util.h"
 
@@ -47,6 +48,43 @@ namespace cclib {
                     }
                 }
 
+                void mergeSort(vector<Comparable>& sortValue) {
+                    mergeSort(sortValue, 0, sortValue.size() - 1);
+                }
+
+                void heapSort(vector<Comparable>& sortValue) {
+                    for(int i = sortValue.size() / 2; i >= 0; i--) {
+                        percDown(sortValue, i, sortValue.size());
+                    }
+                    for(int j = sortValue.size() - 1; j > 0; j--) {
+                        swap(sortValue[0], sortValue[j]);
+                        percDown(sortValue, 0, j - 1);
+                        // percDown(sortValue, 0, j); //NOTICE: method 2
+                    }
+                }
+
+            private:
+                void merge(vector<int> &sortValue, int left, int center, int right) {
+                    vector<int> leftSubArray(sortValue.begin() + left, sortValue.begin() + center + 1);
+                    vector<int> rightSubArray(sortValue.begin() + center + 1, sortValue.begin() + right + 1);
+                    int idxLeft = 0, idxRight = 0;
+                    leftSubArray.insert(leftSubArray.end(), numeric_limits<Comparable>::max());
+                    rightSubArray.insert(rightSubArray.end(), numeric_limits<Comparable>::max());
+
+                    for (int i = left; i <= right; i++) {
+                        sortValue[i] = leftSubArray[idxLeft] < rightSubArray[idxRight]
+                         ? leftSubArray[idxLeft++] : rightSubArray[idxRight++];
+                    }
+                }
+
+                void mergeSort(vector<Comparable>& sortValue, int left, int right) {
+                    if(left < right) {
+                        int center = (left + right) / 2;
+                        mergeSort(sortValue, left, center);
+                        mergeSort(sortValue, center + 1, right);
+                        merge(sortValue, left, center, right);
+                    }
+                }
 
                 inline int leftChild(int dad) {
                     return 2 * dad + 1; //NOTICE: left child in array or vector
@@ -83,16 +121,6 @@ namespace cclib {
                     //     }
                     // }
                     // sortValue[parentNode] = tmp;
-                }
-                void heapSort(vector<Comparable>& sortValue) {
-                    for(int i = sortValue.size() / 2; i >= 0; i--) {
-                        percDown(sortValue, i, sortValue.size());
-                    }
-                    for(int j = sortValue.size() - 1; j > 0; j--) {
-                        swap(sortValue[0], sortValue[j]);
-                        percDown(sortValue, 0, j - 1);
-                        // percDown(sortValue, 0, j); //NOTICE: method 2
-                    }
                 }
         };
     }

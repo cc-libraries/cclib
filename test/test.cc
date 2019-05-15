@@ -24,6 +24,7 @@ inline vector<int> getStackVectorValue() {
     cclib::common::util::printVectorValue(vectorValue);
     return vectorValue;
 }
+
 inline void coutVectorValue(vector<int> value) {
     cclib::common::util::printVectorValue(value);
 }
@@ -46,6 +47,13 @@ void heapSortTest(Sort<int>* sortClass) {
     coutVectorValue(sortValue);
 }
 
+void mergeSortTest(Sort<int>* sortClass) {
+    vector<int> sortValue = getStackVectorValue();
+    sortClass->mergeSort(sortValue);
+    // sortClass->MergeSort(sortValue, 0, sortValue.size() -1);
+    coutVectorValue(sortValue);
+}
+
 int timeComplexityCalculate(clock_t startTime, clock_t endTime) {
     return endTime - startTime;
 }
@@ -53,13 +61,14 @@ int timeComplexityCalculate(clock_t startTime, clock_t endTime) {
 int main(int argc, char const *argv[])
 {
     /* code */
-    Sort<int>* sortClass = new Sort<int>();
     // clock_t start,end;
     // start = clock();
     // insertionSortTest(sortClass);
     // end = clock();
     // cout << "insertion sort time spend: " << timeComplexityCalculate(start, end) << endl;
-    heapSortTest(sortClass);
+
+    Sort<int>* sortClass = new Sort<int>();
+    mergeSortTest(sortClass);
     delete sortClass;
     sortClass = NULL;
     return 0;
