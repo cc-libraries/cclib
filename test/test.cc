@@ -50,7 +50,12 @@ void heapSortTest(Sort<int>* sortClass) {
 void mergeSortTest(Sort<int>* sortClass) {
     vector<int> sortValue = getStackVectorValue();
     sortClass->mergeSort(sortValue);
-    // sortClass->MergeSort(sortValue, 0, sortValue.size() -1);
+    coutVectorValue(sortValue);
+}
+
+void quickSortTest(Sort<int>* sortClass) {
+    vector<int> sortValue = getStackVectorValue();
+    sortClass->quickSort(sortValue);
     coutVectorValue(sortValue);
 }
 
@@ -68,7 +73,7 @@ int main(int argc, char const *argv[])
     // cout << "insertion sort time spend: " << timeComplexityCalculate(start, end) << endl;
 
     Sort<int>* sortClass = new Sort<int>();
-    mergeSortTest(sortClass);
+    quickSortTest(sortClass);
     delete sortClass;
     sortClass = NULL;
     return 0;

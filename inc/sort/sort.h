@@ -63,7 +63,34 @@ namespace cclib {
                     }
                 }
 
+                void quickSort(vector<Comparable>& sortValue) {
+                    quickSort(sortValue, 0, sortValue.size() - 1);
+                }
+
             private:
+                void quickSort(vector<Comparable>& sortValue, int start, int end) {
+                    if (start >= end) {
+                        return;
+                    }
+
+                    int left = start, right = end;
+                    Comparable middleValue = sortValue[start];
+                    while (left < right) {
+                        while(sortValue[right] >= middleValue && left < right) right--;
+                        if(left < right)
+                            sortValue[left++] = sortValue[right];
+
+                        while(sortValue[left] < middleValue && left < right) left++;
+                        if(left < right)
+                            sortValue[right--] = sortValue[left];
+                    }
+
+                    sortValue[right] = middleValue;
+
+                    quickSort(sortValue, start, left - 1);
+                    quickSort(sortValue, left + 1, end);
+                }
+
                 void merge(vector<int> &sortValue, int left, int center, int right) {
                     vector<int> leftSubArray(sortValue.begin() + left, sortValue.begin() + center + 1);
                     vector<int> rightSubArray(sortValue.begin() + center + 1, sortValue.begin() + right + 1);
