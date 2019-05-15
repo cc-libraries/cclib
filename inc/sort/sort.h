@@ -68,6 +68,7 @@ namespace cclib {
                     vector<int> leftSubArray(sortValue.begin() + left, sortValue.begin() + center + 1);
                     vector<int> rightSubArray(sortValue.begin() + center + 1, sortValue.begin() + right + 1);
                     int idxLeft = 0, idxRight = 0;
+                    //COMMENT: insert max value to compare when the left or right array is none
                     leftSubArray.insert(leftSubArray.end(), numeric_limits<Comparable>::max());
                     rightSubArray.insert(rightSubArray.end(), numeric_limits<Comparable>::max());
 
