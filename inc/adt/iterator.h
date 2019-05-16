@@ -12,5 +12,25 @@
 #ifndef CCLIB_ADT_ITERATOR_H
 #define CCLIB_ADT_ITERATOR_H
 
-#endif  //CCLIB_ADT_ITERATOR_H
+namespace cclib {
+    namespace adt {
+        template<typename T>
+        class iterator {
+            public:
+                virtual T operator*() = 0;
+                virtual auto operator++() = 0;
+                virtual auto operator++(int) = 0;
+                //TODO: for operator--
+                // virtual auto operator--() = 0;
+                // virtual auto operator--(int) = 0;
 
+                virtual auto begin() = 0;
+                virtual auto end() = 0;
+                virtual auto next() = 0;
+                //TODO: for prev
+                // virtual auto prev() = 0;
+        };
+    }
+}
+
+#endif  //CCLIB_ADT_ITERATOR_H
