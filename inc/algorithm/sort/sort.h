@@ -1,21 +1,18 @@
 /*********************************************************************
- * cclib-algorithm
+ * cclib
  *
- * Copyright (c) 2019 cc-algorithm contributors:
+ * Copyright (c) 2019 cclib contributors:
  *   - hello_chenchen <https://github.com/hello-chenchen>
  *
- * MIT License <https://github.com/cc-libraries/cclib-algorithm/blob/master/LICENSE>
- * See https://github.com/cc-libraries/cclib-algorithm for the latest update to this file
+ * MIT License <https://github.com/cc-libraries/cclib/blob/master/LICENSE>
+ * See https://github.com/cc-libraries/cclib for the latest update to this file
  *
  * author: hello_chenchen <https://github.com/hello-chenchen>
  **********************************************************************************/
 #ifndef CCLIB_ALGORITHM_SORT_H
 #define CCLIB_ALGORITHM_SORT_H
-#include <vector>
-#include <iterator>
-#include <iostream>
-#include <limits>
 
+#include "./../../../cclib-common/inc/base/common_include.h"
 #include "./../../../cclib-common/inc/util/util.h"
 
 using namespace std;
