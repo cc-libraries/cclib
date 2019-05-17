@@ -8,7 +8,7 @@ using namespace cclib;
 using namespace cclib::adt;
 
 void vectorTest() {
-    cclib::adt::vector<int> cc;
+    Vector<int> cc;
 
     bool res = cc.push_back(4);
     cc.push_back(1);
@@ -29,7 +29,7 @@ void vectorTest() {
     cc.push_back(4);
     cclib::common::util::printVectorValue(cc);
 
-    cclib::adt::vector<int>::iterator aa = cc.begin();
+    Vector<int>::Iterator aa = cc.begin();
     while(aa != cc.end()) {
         cout << "aa: " << *(aa++) << endl;
     }

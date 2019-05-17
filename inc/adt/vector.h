@@ -35,32 +35,32 @@ namespace cclib {
         // };
 
         template<typename T>
-        class vector {
+        class Vector {
             public:
-                typedef T*    iterator;
+                typedef T*    Iterator;
 
             public:
-                explicit vector(size_t num = 0) : _size(0 == num ? _default_storage : num), _storage_count(0), _M_first(NULL) {
+                explicit Vector(size_t num = 0) : _size(0 == num ? _default_storage : num), _storage_count(0), _M_first(NULL) {
                     _M_first = new T[_size];
                  }
 
-                vector(const vector<T>& instance) : _size(instance._size), _storage_count(instance._storage_count) {
+                Vector(const Vector<T>& instance) : _size(instance._size), _storage_count(instance._storage_count) {
                     operator=(instance);
                 }
 
-                vector(iterator begin, iterator end) : _size(begin - end), _storage_count(_size) {
+                Vector(Iterator begin, Iterator end) : _size(begin - end), _storage_count(_size) {
                     _M_first = new T[_size];
                     for(int i = 0; i < _size; i++) {
                         _M_first[i] = *(begin + i);
                     }
                 }
 
-                ~vector() {
+                ~Vector() {
                     delete[] _M_first;
                     _M_first = NULL;
                 }
 
-                vector<T>& operator=(const vector<T>& instance) {
+                Vector<T>& operator=(const Vector<T>& instance) {
                     _M_first = new T[_size];
                     for(int i = 0; i < _storage_count; i++) {
                         _M_first[i] = instance._M_first[i];
@@ -73,11 +73,11 @@ namespace cclib {
                     return *(_M_first + index);
                 }
 
-                iterator begin() {
+                Iterator begin() {
                     return _M_first;
                 }
 
-                iterator end() {
+                Iterator end() {
                     return _M_first + _storage_count;
                 }
 
@@ -111,7 +111,7 @@ namespace cclib {
                     return true;
                 }
 
-                bool insert(iterator position, const T& data) {
+                bool insert(Iterator position, const T& data) {
                     int pos = position - _M_first;
                     return insert(pos, data);
                 }
@@ -141,7 +141,7 @@ namespace cclib {
                     return true;
                 }
 
-                bool earse(iterator position) {
+                bool earse(Iterator position) {
                     size_t pos = position - _M_first;
                     return earse(pos);
                 }

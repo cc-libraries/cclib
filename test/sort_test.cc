@@ -8,8 +8,8 @@ using namespace cclib;
 using namespace cclib::algorithm;
 using namespace cclib::adt;
 
-inline vector<int> getStackVectorValue() {
-    vector<int> vectorValue;
+inline Vector<int> getStackVectorValue() {
+    Vector<int> vectorValue;
     vectorValue.push_back(4);
     vectorValue.push_back(12);
     vectorValue.push_back(3);
@@ -23,31 +23,31 @@ inline vector<int> getStackVectorValue() {
 }
 
 void insertionSortTest(Sort<int>* sortClass) {
-    vector<int> sortValue = getStackVectorValue();
+    Vector<int> sortValue = getStackVectorValue();
     sortClass->insertionSort(sortValue);
     cclib::common::util::printVectorValue(sortValue);
 }
 
 void shellSortTest(Sort<int>* sortClass) {
-    vector<int> sortValue = getStackVectorValue();
+    Vector<int> sortValue = getStackVectorValue();
     sortClass->shellSort(sortValue);
     cclib::common::util::printVectorValue(sortValue);
 }
 
 void heapSortTest(Sort<int>* sortClass) {
-    vector<int> sortValue = getStackVectorValue();
+    Vector<int> sortValue = getStackVectorValue();
     sortClass->heapSort(sortValue);
     cclib::common::util::printVectorValue(sortValue);
 }
 
 void mergeSortTest(Sort<int>* sortClass) {
-    vector<int> sortValue = getStackVectorValue();
+    Vector<int> sortValue = getStackVectorValue();
     sortClass->mergeSort(sortValue);
     cclib::common::util::printVectorValue(sortValue);
 }
 
 void quickSortTest(Sort<int>* sortClass) {
-    vector<int> sortValue = getStackVectorValue();
+    Vector<int> sortValue = getStackVectorValue();
     sortClass->quickSort(sortValue);
     cclib::common::util::printVectorValue(sortValue);
 }
