@@ -1,15 +1,12 @@
 //COMPILE: g++ test.cc -std=c++11
-#include <vector>
-#include <iostream>
-#include <time.h>
 
 #include "./../inc/algorithm/sort/sort.h"
 #include "./../cclib-common/inc/util/util.h"
-
-using namespace std;
+#include "./../inc/adt/vector.h"
 
 using namespace cclib;
 using namespace cclib::algorithm;
+using namespace cclib::adt;
 
 inline vector<int> getStackVectorValue() {
     vector<int> vectorValue;
@@ -25,38 +22,34 @@ inline vector<int> getStackVectorValue() {
     return vectorValue;
 }
 
-inline void coutVectorValue(vector<int> value) {
-    cclib::common::util::printVectorValue(value);
-}
-
 void insertionSortTest(Sort<int>* sortClass) {
     vector<int> sortValue = getStackVectorValue();
     sortClass->insertionSort(sortValue);
-    coutVectorValue(sortValue);
+    cclib::common::util::printVectorValue(sortValue);
 }
 
 void shellSortTest(Sort<int>* sortClass) {
     vector<int> sortValue = getStackVectorValue();
     sortClass->shellSort(sortValue);
-    coutVectorValue(sortValue);
+    cclib::common::util::printVectorValue(sortValue);
 }
 
 void heapSortTest(Sort<int>* sortClass) {
     vector<int> sortValue = getStackVectorValue();
     sortClass->heapSort(sortValue);
-    coutVectorValue(sortValue);
+    cclib::common::util::printVectorValue(sortValue);
 }
 
 void mergeSortTest(Sort<int>* sortClass) {
     vector<int> sortValue = getStackVectorValue();
     sortClass->mergeSort(sortValue);
-    coutVectorValue(sortValue);
+    cclib::common::util::printVectorValue(sortValue);
 }
 
 void quickSortTest(Sort<int>* sortClass) {
     vector<int> sortValue = getStackVectorValue();
     sortClass->quickSort(sortValue);
-    coutVectorValue(sortValue);
+    cclib::common::util::printVectorValue(sortValue);
 }
 
 int timeComplexityCalculate(clock_t startTime, clock_t endTime) {

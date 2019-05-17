@@ -12,10 +12,11 @@
 #ifndef CCLIB_ALGORITHM_SORT_H
 #define CCLIB_ALGORITHM_SORT_H
 
-#include "./../../../cclib-common/inc/base/common_include.h"
 #include "./../../../cclib-common/inc/util/util.h"
+#include "./../../adt/vector.h"
 
-using namespace std;
+using namespace cclib;
+using namespace cclib::adt;
 
 namespace cclib {
     namespace algorithm {
@@ -54,7 +55,7 @@ namespace cclib {
                         percDown(sortValue, i, sortValue.size());
                     }
                     for(int j = sortValue.size() - 1; j > 0; j--) {
-                        swap(sortValue[0], sortValue[j]);
+                        std::swap(sortValue[0], sortValue[j]);
                         percDown(sortValue, 0, j - 1);
                         // percDown(sortValue, 0, j); //NOTICE: method 2
                     }
@@ -93,8 +94,8 @@ namespace cclib {
                     vector<int> rightSubArray(sortValue.begin() + center + 1, sortValue.begin() + right + 1);
                     int idxLeft = 0, idxRight = 0;
                     //COMMENT: insert max value to compare when the left or right array is none
-                    leftSubArray.insert(leftSubArray.end(), numeric_limits<Comparable>::max());
-                    rightSubArray.insert(rightSubArray.end(), numeric_limits<Comparable>::max());
+                    leftSubArray.insert(leftSubArray.end(), std::numeric_limits<Comparable>::max());
+                    rightSubArray.insert(rightSubArray.end(), std::numeric_limits<Comparable>::max());
 
                     for (int i = left; i <= right; i++) {
                         sortValue[i] = leftSubArray[idxLeft] < rightSubArray[idxRight]
@@ -126,7 +127,7 @@ namespace cclib {
                         if(sortValue[parentNode] > sortValue[leftChildNode]) {
                             return;
                         } else {
-                            swap(sortValue[parentNode], sortValue[leftChildNode]);
+                            std::swap(sortValue[parentNode], sortValue[leftChildNode]);
                             parentNode = leftChildNode;
                             leftChildNode = leftChild(parentNode);
                         }

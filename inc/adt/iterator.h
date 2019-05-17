@@ -17,18 +17,20 @@ namespace cclib {
         template<typename T>
         class iterator {
             public:
+                typedef iterator<T>     itr;
+            public:
                 virtual T operator*() = 0;
-                virtual auto operator++() = 0;
-                virtual auto operator++(int) = 0;
+                virtual T operator++() = 0;
+                virtual T operator++(int) = 0;
                 //TODO: for operator--
-                // virtual auto operator--() = 0;
-                // virtual auto operator--(int) = 0;
+                // virtual T operator--() = 0;
+                // virtual T operator--(int) = 0;
 
-                virtual auto begin() = 0;
-                virtual auto end() = 0;
-                virtual auto next() = 0;
+                virtual T begin() = 0;
+                virtual T end() = 0;
+                virtual T next() = 0;
                 //TODO: for prev
-                // virtual auto prev() = 0;
+                // virtual T prev() = 0;
         };
     }
 }
