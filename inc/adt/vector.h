@@ -43,6 +43,7 @@ namespace cclib {
                  }
 
                 Vector(const Vector<T>& instance) : _size(instance._size), _storage_count(instance._storage_count) {
+                    std::cout << "hello_chenchen1: _storage_count:" << _storage_count << std::endl;
                     operator=(instance);
                 }
 
@@ -54,11 +55,22 @@ namespace cclib {
                 }
 
                 ~Vector() {
+                    std::cout << "helloaa: " << std::endl;
                     delete[] _M_array;
                     _M_array = NULL;
                 }
 
                 Vector<T>& operator=(const Vector<T>& instance) {
+                    std::cout << "hello_chenchen: _storage_count:" << _storage_count << std::endl;
+                    _size = instance._size;
+                    _storage_count = instance._storage_count;
+                    // if(NULL != _M_array) {
+                    //     for(int i = 0 ; i < _storage_count; i++) {
+                    //         std::cout << "_M_array[" << i << "]:" << _M_array[i] << std::endl;
+                    //     }
+                    //     // delete[] _M_array;
+                    // }
+
                     _M_array = new T[_size];
                     for(int i = 0; i < _storage_count; i++) {
                         _M_array[i] = instance._M_array[i];

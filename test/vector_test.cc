@@ -44,6 +44,10 @@ void vectorTest() {
     cc.pop_back();
     cclib::common::util::printVectorValue(cc);
     cout << "hello1:" << cc.empty() << endl;
+
+    cc.push_back(1);
+
+    Vector<int> bb = cc;
 }
 
 int main(int argc, char const *argv[])
