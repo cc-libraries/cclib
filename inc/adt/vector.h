@@ -105,7 +105,7 @@ namespace cclib {
                 }
 
                 bool pop_back() {
-                    _M_array[--_storage_count] = T(0);
+                    _M_array[--_storage_count] = T();
                     return true;
                 }
 
@@ -151,7 +151,7 @@ namespace cclib {
                         _M_array[i] = _M_array[i + 1];
                     }
 
-                    _M_array[_storage_count - 1] = T(0);
+                    _M_array[_storage_count - 1] = T();
                     --_storage_count;
                     return true;
                 }

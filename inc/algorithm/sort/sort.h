@@ -12,7 +12,6 @@
 #ifndef CCLIB_ALGORITHM_SORT_H
 #define CCLIB_ALGORITHM_SORT_H
 
-#include "./../../../cclib-common/inc/util/util.h"
 #include "./../../adt/vector.h"
 
 using namespace cclib;
@@ -23,7 +22,7 @@ namespace cclib {
         template<typename Comparable>
         class Sort {
             public:
-                void insertionSort(vector<Comparable>& sortValue) {
+                void insertionSort(Vector<Comparable>& sortValue) {
                     int j;
                     for(int p = 1; p < sortValue.size(); p++) {
                         Comparable tmp = sortValue[p];
@@ -34,7 +33,7 @@ namespace cclib {
                     }
                 }
 
-                void shellSort(vector<Comparable>& sortValue) {
+                void shellSort(Vector<Comparable>& sortValue) {
                     for(int gap = sortValue.size() / 2; gap > 0; gap /= 2) {
                         for(int i = gap; i < sortValue.size(); i++) {
                             Comparable tmp = sortValue[i];
@@ -46,11 +45,11 @@ namespace cclib {
                     }
                 }
 
-                void mergeSort(vector<Comparable>& sortValue) {
+                void mergeSort(Vector<Comparable>& sortValue) {
                     mergeSort(sortValue, 0, sortValue.size() - 1);
                 }
 
-                void heapSort(vector<Comparable>& sortValue) {
+                void heapSort(Vector<Comparable>& sortValue) {
                     for(int i = sortValue.size() / 2; i >= 0; i--) {
                         percDown(sortValue, i, sortValue.size());
                     }
@@ -61,12 +60,12 @@ namespace cclib {
                     }
                 }
 
-                void quickSort(vector<Comparable>& sortValue) {
+                void quickSort(Vector<Comparable>& sortValue) {
                     quickSort(sortValue, 0, sortValue.size() - 1);
                 }
 
             private:
-                void quickSort(vector<Comparable>& sortValue, int start, int end) {
+                void quickSort(Vector<Comparable>& sortValue, int start, int end) {
                     if (start >= end) {
                         return;
                     }
@@ -89,9 +88,9 @@ namespace cclib {
                     quickSort(sortValue, left + 1, end);
                 }
 
-                void merge(vector<int> &sortValue, int left, int center, int right) {
-                    vector<int> leftSubArray(sortValue.begin() + left, sortValue.begin() + center + 1);
-                    vector<int> rightSubArray(sortValue.begin() + center + 1, sortValue.begin() + right + 1);
+                void merge(Vector<int> &sortValue, int left, int center, int right) {
+                    Vector<int> leftSubArray(sortValue.begin() + left, sortValue.begin() + center + 1);
+                    Vector<int> rightSubArray(sortValue.begin() + center + 1, sortValue.begin() + right + 1);
                     int idxLeft = 0, idxRight = 0;
                     //COMMENT: insert max value to compare when the left or right array is none
                     leftSubArray.insert(leftSubArray.end(), std::numeric_limits<Comparable>::max());
@@ -103,7 +102,7 @@ namespace cclib {
                     }
                 }
 
-                void mergeSort(vector<Comparable>& sortValue, int left, int right) {
+                void mergeSort(Vector<Comparable>& sortValue, int left, int right) {
                     if(left < right) {
                         int center = (left + right) / 2;
                         mergeSort(sortValue, left, center);
@@ -115,7 +114,7 @@ namespace cclib {
                 inline int leftChild(int dad) {
                     return 2 * dad + 1; //NOTICE: left child in array or vector
                 }
-                inline void percDown(vector<Comparable>& sortValue, int start, int end) {
+                inline void percDown(Vector<Comparable>& sortValue, int start, int end) {
                     int leftChildNode, parentNode;
                     parentNode = start;
                     leftChildNode = leftChild(parentNode);
