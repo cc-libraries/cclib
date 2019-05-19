@@ -47,7 +47,8 @@ void vectorTest() {
 
     cc.push_back(1);
 
-    Vector<int> bb = cc;
+    Vector<int> bb;
+    bb = cc;
 }
 
 int main(int argc, char const *argv[])
