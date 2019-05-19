@@ -18,8 +18,6 @@
 
 namespace cclib {
     namespace adt {
-        const size_t _default_storage = 1;
-
         // template<typename T>
         // class vectorIterator {
         //     public:
@@ -40,7 +38,8 @@ namespace cclib {
                 typedef T*    Iterator;
 
             public:
-                explicit Vector(size_t num = 0) : _size(0 == num ? _default_storage : num), _storage_count(0), _M_first(NULL) {
+                explicit Vector(size_t num = 0) : _size(0 == num ? 1 : num), _storage_count(0), _M_first(NULL) {
+                    // _ccc = 1;
                     _M_first = new T[_size];
                  }
 
