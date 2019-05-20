@@ -1,4 +1,4 @@
-//COMPILE: g++ test.cc -std=c++11
+//COMPILE: g++ sort_test.cc -std=c++11
 
 #include "./../inc/algorithm/sort/sort.h"
 #include "./../cclib-common/inc/util/util.h"

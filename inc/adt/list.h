@@ -179,6 +179,7 @@ namespace cclib {
                     // itr._M_node->_data = NULL;
                     delete itr._M_node;
                     itr._M_node = NULL;
+                    _size--;
 
                     return iterator(nextNode);
                 }

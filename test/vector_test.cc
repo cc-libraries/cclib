@@ -1,3 +1,4 @@
+//COMPILE: g++ vector_test.cc -std=c++11
 #include <iostream>
 #include "./../inc/adt/vector.h"
 #include "./../cclib-common/inc/util/util.h"
