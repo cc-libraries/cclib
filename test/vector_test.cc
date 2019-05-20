@@ -37,20 +37,19 @@ void vectorTest() {
     cc.pop_back();
     cclib::common::util::printVectorValue(cc);
 
-    cc.pop_back();
-    cclib::common::util::printVectorValue(cc);
-    cout << "hello: " << cc.empty() << endl;
+    // cc.pop_back();
+    // cclib::common::util::printVectorValue(cc);
+    // cout << "hello: " << cc.empty() << endl;
 
-    cc.pop_back();
-    cclib::common::util::printVectorValue(cc);
-    cout << "hello1:" << cc.empty() << endl;
+    // cc.pop_back();
+    // cclib::common::util::printVectorValue(cc);
+    // cout << "hello1:" << cc.empty() << endl;
 
-    cc.push_back(1);
+    // cc.push_back(1);
 
     Vector<int> bb;
-    Vector<int> dd;
     bb = cc;
-    dd = bb;
+    bb.push_back(3);
 }
 
 int main(int argc, char const *argv[])
