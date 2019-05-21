@@ -16,12 +16,13 @@ namespace cclib {
     namespace adt {
         template<typename T>
         struct Node {
-            T* _data;
+            T _data;
             Node* _prev;
             Node* _next;
 
-            Node(): _data(NULL), _prev(NULL), _next(NULL) {}
-            Node(T* data): _data(data) {}
+            Node(): _prev(NULL), _next(NULL) {}
+            Node(const T& data): _data(data) {}
+            // Node(const T& data): _data(new T(data)) {}
 
             bool operator==(const Node* instance) const {
                 return (instance->_data == this->_data) && (instance->_prev == this->_prev) && (instance->_next == this->_next);
@@ -31,10 +32,10 @@ namespace cclib {
                 return (instance->_data != this->_data) && (instance->_prev != this->_prev) && (instance->_next != this->_next);
             }
 
-            void operator delete(void* node) {
-                delete ((Node<T>*)node)->_data;
-                ((Node<T>*)node)->_prev = ((Node<T>*)node)->_next = NULL;
-            }
+            // void operator delete(void* node) {
+            //     delete ((Node<T>*)node)->_data;
+            //     ((Node<T>*)node)->_prev = ((Node<T>*)node)->_next = NULL;
+            // }
         };
 
         template<typename T>
@@ -53,7 +54,11 @@ namespace cclib {
 
                 ~ListIterator() {}
 
-                T operator*() { return *(_M_node->_data); }
+                T operator*() {
+                    // return NULL == _M_node ? NULL : *(_M_node->_data);
+                    // std::cout << "_M_node: " << _M_node->_data << std::endl;
+                    return _M_node->_data;
+                }
 
                 _Self operator++() {
                     _M_node = NULL == _M_node ? NULL : _M_node->_next;
@@ -63,7 +68,18 @@ namespace cclib {
                 _Self operator++(int) {
                     _Self _temp = *this;
                     _M_node = NULL == _M_node ? NULL : _M_node->_next;
+                    return _temp;
+                }
+
+                _Self operator--() {
+                    _M_node = NULL == _M_node ? NULL : _M_node->_prev;
                     return *this;
+                }
+
+                _Self operator--(int) {
+                    _Self _temp = *this;
+                    _M_node = NULL == _M_node ? NULL : _M_node->_prev;
+                    return _temp;
                 }
 
                 bool operator== (const _Self& instance) const {
@@ -120,6 +136,8 @@ namespace cclib {
                 }
 
                 iterator end() {
+                    // std::cout << "end(): " << std::endl;
+                    // std::cout << "end(): " << _M_node->_data << std::endl;
                     return iterator(_M_node);
                 }
 
@@ -156,13 +174,13 @@ namespace cclib {
                 bool pop_back() {
                     iterator temp = end();
                     erase(--temp);  //TODO:
+                    return true;
                 }
 
                 iterator insert(iterator itr, const T& data) {
-                    Node<T>* temp = new Node<T>(new T(data));
+                    Node<T>* temp = new Node<T>(data);
                     temp->_next = itr._M_node;
                     temp->_prev = itr._M_node->_prev;
-                    std::cout << "hello_chenchen: " << std::endl;
                     itr._M_node->_prev->_next = temp;
                     itr._M_node->_prev = temp;
                     _size++;
