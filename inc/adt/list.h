@@ -131,14 +131,14 @@ namespace cclib {
                     return *this;
                 }
 
-                ListIterator<T> begin() {
-                    return ListIterator<T>((Node<T>*)_M_node->_next);
+                iterator begin() {
+                    return (Node<T>*)_M_node->_next;
                 }
 
                 iterator end() {
                     // std::cout << "end(): " << std::endl;
                     // std::cout << "end(): " << _M_node->_data << std::endl;
-                    return iterator(_M_node);
+                    return this->_M_node;
                 }
 
                 size_t size() const {
@@ -185,10 +185,10 @@ namespace cclib {
                     itr._M_node->_prev = temp;
                     _size++;
 
-                    return iterator(temp);
+                    return temp;
                 }
 
-                ListIterator<T> erase(ListIterator<T> itr) {
+                iterator erase(iterator itr) {
                     Node<T>* nextNode = itr._M_node->_next;
                     itr._M_node->_prev->_next = itr._M_node->_next;
                     itr._M_node->_next->_prev = itr._M_node->_prev;
@@ -199,7 +199,7 @@ namespace cclib {
                     itr._M_node = NULL;
                     _size--;
 
-                    return iterator(nextNode);
+                    return nextNode;
                 }
 
             private:
