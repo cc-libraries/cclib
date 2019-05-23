@@ -10,5 +10,12 @@ void foo() {
     cc.push_back(3);
 
     list<int>::iterator itr = cc.end();
-    
+
+}
+
+int main(int argc, char const *argv[])
+{
+    /* code */
+    foo();
+    return 0;
 }
