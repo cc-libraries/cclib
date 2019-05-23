@@ -20,7 +20,7 @@ namespace cclib {
             Node* _prev;
             Node* _next;
 
-            Node(): _prev(NULL), _next(NULL) {}
+            Node():_data(T()), _prev(NULL), _next(NULL) {}
             Node(const T& data): _data(data) {}
             // Node(const T& data): _data(new T(data)) {}
 
@@ -103,13 +103,15 @@ namespace cclib {
 
             public:
                 explicit List() : _size(0), _M_node(NULL) {
-                    _M_node = new Node<T>();
-                    _M_node->_next = _M_node;
-                    _M_node->_prev = _M_node;
+                    std::cout << "List" << std::endl;
+                    // _M_node = new Node<T>();
+                    // _M_node->_next = _M_node;
+                    // _M_node->_prev = _M_node;
                 }
 
                 List( const List& instance): _size(instance._size) {
                     *this = instance;
+                    std::cout << "List(instance)" << std::endl;
                 }
 
                 ~List() {
@@ -132,13 +134,13 @@ namespace cclib {
                 }
 
                 iterator begin() {
-                    return (Node<T>*)_M_node->_next;
+                    return iterator(_M_node);
                 }
 
                 iterator end() {
-                    // std::cout << "end(): " << std::endl;
+                    std::cout << "end(): " << std::endl;
                     // std::cout << "end(): " << _M_node->_data << std::endl;
-                    return this->_M_node;
+                    return NULL == _M_node ? _M_node : iterator((Node<T>*)_M_node->_prev);
                 }
 
                 size_t size() const {
@@ -179,10 +181,21 @@ namespace cclib {
 
                 iterator insert(iterator itr, const T& data) {
                     Node<T>* temp = new Node<T>(data);
-                    temp->_next = itr._M_node;
-                    temp->_prev = itr._M_node->_prev;
-                    itr._M_node->_prev->_next = temp;
-                    itr._M_node->_prev = temp;
+                    if(0 == _size) {
+                        _M_node = new Node<T>(data);
+                        _M_node->_next = _M_node;
+                        _M_node->_prev = _M_node;
+                    // } else if(1 == _size) {
+                    //     temp->_prev = itr._M_node;
+                    //     temp->_next = itr._M_node;
+                    //     itr._M_node->_prev = temp;
+                    //     itr._M_node->_next = temp;
+                    } else {
+                        temp->_next = itr._M_node;
+                        temp->_prev = itr._M_node->_prev;
+                        itr._M_node->_prev->_next = temp;
+                        itr._M_node->_prev = temp;
+                    }
                     _size++;
 
                     return temp;
