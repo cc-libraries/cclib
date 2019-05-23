@@ -11,13 +11,12 @@ using namespace cclib::adt;
 void listTest() {
     List<int> cc;
     cc.push_back(1);
-    cc.push_back(2);
+    // cc.push_back(2);
     // cc.push_back(3);
     // cclib::common::util::printListValue(cc);
 
     List<int>::iterator itr = cc.end();
-    cout << "cccc" << endl;
-    // cout << "hello itr: " << *itr << endl;
+    cout << "hello itr: " << *itr << endl;
     // cout << "hello itr1: " << *itr << endl;
     // while(itr != cc.begin()) {
     //     cout << "itr: " << *itr << endl;
@@ -36,6 +35,5 @@ int main(int argc, char const *argv[])
 {
     /* code */
     listTest();
-    cout << "aaa" << endl;
     return 0;
 }

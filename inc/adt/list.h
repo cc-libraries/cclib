@@ -22,6 +22,7 @@ namespace cclib {
 
             Node():_data(T()), _prev(NULL), _next(NULL) {}
             Node(const T& data): _data(data) {}
+            Node(const T& data, Node* prev, Node* next): _data(T()), _prev(NULL), _next(NULL) {}
             // Node(const T& data): _data(new T(data)) {}
 
             bool operator==(const Node* instance) const {
@@ -44,7 +45,7 @@ namespace cclib {
                 typedef ListIterator<T> _Self;
 
             public:
-                ListIterator() {}
+                ListIterator(): _M_node(NULL) {}
 
                 ListIterator(Node<T>* nodeData) {
                     _M_node = nodeData;
@@ -54,7 +55,7 @@ namespace cclib {
 
                 ~ListIterator() {}
 
-                T operator*() {
+                T& operator*() {
                     // return NULL == _M_node ? NULL : *(_M_node->_data);
                     // std::cout << "_M_node: " << _M_node->_data << std::endl;
                     return _M_node->_data;
@@ -102,25 +103,27 @@ namespace cclib {
                 typedef ListIterator<T> iterator;
 
             public:
-                explicit List() : _size(0), _M_node(NULL) {
-                    std::cout << "List" << std::endl;
-                    // _M_node = new Node<T>();
-                    // _M_node->_next = _M_node;
-                    // _M_node->_prev = _M_node;
+                explicit List() : _size(0), _head(NULL), _tail(NULL) {
+                    _head = new Node<T>();
+                    _tail = new Node<T>();
+                    _head->_next = _tail;
+                    _tail->_prev = _head;
                 }
 
                 List( const List& instance): _size(instance._size) {
+                    _size = 0;
+                    _head = new Node<T>();
+                    _tail = new Node<T>();
+                    _head->_next = _tail;
+                    _tail->_prev = _head;
                     *this = instance;
-                    std::cout << "List(instance)" << std::endl;
                 }
 
                 ~List() {
                     clear();
 
-                    // if(NULL != _M_node) {
-                        // delete _M_node;
-                        // _M_node = NULL;
-                    // }
+                    delete _head;
+                    delete _tail;
                 }
 
                 const List& operator=(const List& instance) {
@@ -134,13 +137,11 @@ namespace cclib {
                 }
 
                 iterator begin() {
-                    return iterator(_M_node);
+                    iterator iterator(_head->_next);
                 }
 
                 iterator end() {
-                    std::cout << "end(): " << std::endl;
-                    // std::cout << "end(): " << _M_node->_data << std::endl;
-                    return NULL == _M_node ? _M_node : iterator((Node<T>*)_M_node->_prev);
+                    return iterator(_tail);
                 }
 
                 size_t size() const {
@@ -148,7 +149,7 @@ namespace cclib {
                 }
 
                 bool empty() const {
-                    return _M_node->_next == _M_node;
+                    return _size == 0;
                 }
 
                 bool clear() {
@@ -174,35 +175,20 @@ namespace cclib {
                 }
 
                 bool pop_back() {
-                    iterator temp = end();
-                    erase(--temp);  //TODO:
+                    erase(-- end());  //TODO:
                     return true;
                 }
 
                 iterator insert(iterator itr, const T& data) {
-                    Node<T>* temp = new Node<T>(data);
-                    if(0 == _size) {
-                        _M_node = new Node<T>(data);
-                        _M_node->_next = _M_node;
-                        _M_node->_prev = _M_node;
-                    // } else if(1 == _size) {
-                    //     temp->_prev = itr._M_node;
-                    //     temp->_next = itr._M_node;
-                    //     itr._M_node->_prev = temp;
-                    //     itr._M_node->_next = temp;
-                    } else {
-                        temp->_next = itr._M_node;
-                        temp->_prev = itr._M_node->_prev;
-                        itr._M_node->_prev->_next = temp;
-                        itr._M_node->_prev = temp;
-                    }
+                    Node<T>* temp = itr._M_node;
                     _size++;
 
-                    return temp;
+                    return iterator(temp->_prev = temp->_prev->_next = new Node<T>(data, temp->_prev, temp));
                 }
 
                 iterator erase(iterator itr) {
-                    Node<T>* nextNode = itr._M_node->_next;
+                    Node<T>* nextNode = itr._M_node;
+                    iterator retVal(nextNode->_next);
                     itr._M_node->_prev->_next = itr._M_node->_next;
                     itr._M_node->_next->_prev = itr._M_node->_prev;
 
@@ -212,12 +198,13 @@ namespace cclib {
                     itr._M_node = NULL;
                     _size--;
 
-                    return nextNode;
+                    return retVal;
                 }
 
             private:
                 size_t _size;
-                Node<T>* _M_node;
+                Node<T>* _head;
+                Node<T>* _tail;
         };
     }
 }

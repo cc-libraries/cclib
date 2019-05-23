@@ -6,9 +6,17 @@ using namespace std;
 void foo() {
     list<int> cc;
     cc.push_back(1);
-    cc.push_back(2);
-    cc.push_back(3);
+    // cc.push_back(2);
+    // cc.push_back(3);
 
     list<int>::iterator itr = cc.end();
-    
+    cout << "hello itr: " << *itr << endl;
+
+}
+
+int main(int argc, char const *argv[])
+{
+    /* code */
+    foo();
+    return 0;
 }
