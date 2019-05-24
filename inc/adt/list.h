@@ -22,6 +22,7 @@ namespace cclib {
 
             Node():_data(T()), _prev(NULL), _next(NULL) {}
             Node(const T& data): _data(data) {}
+            Node(const T& data, Node* prev, Node* next): _data(T()), _prev(NULL), _next(NULL) {}
             // Node(const T& data): _data(new T(data)) {}
 
             bool operator==(const Node* instance) const {
@@ -44,7 +45,7 @@ namespace cclib {
                 typedef ListIterator<T> _Self;
 
             public:
-                ListIterator() {}
+                ListIterator(): _M_node(NULL) {}
 
                 ListIterator(Node<T>* nodeData) {
                     _M_node = nodeData;
@@ -193,7 +194,7 @@ namespace cclib {
                     itr._M_node = NULL;
                     _size--;
 
-                    return nextNode;
+                    return iterator(nextNode);
                 }
 
             private:

@@ -35,6 +35,5 @@ int main(int argc, char const *argv[])
 {
     /* code */
     listTest();
-    cout << "aaa" << endl;
     return 0;
 }

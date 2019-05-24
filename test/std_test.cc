@@ -11,7 +11,7 @@ void foo() {
     cc.push_back(31);
 
     list<int>::iterator itr = cc.end();
-    cout << "itr: " << itr._M_node << " *itr: " << *(--itr) << endl;
+    cout  << " *itr: " << *(--itr) << endl;
 
     list<int> aa = cc;
     list<int>::iterator itr1 = aa.begin();
