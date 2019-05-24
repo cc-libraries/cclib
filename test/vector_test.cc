@@ -48,8 +48,7 @@ void vectorTest() {
 
     // cc.push_back(1);
 
-    Vector<int> bb;
-    bb = cc;
+    Vector<int> bb = cc;
     bb.push_back(3);
 }
 

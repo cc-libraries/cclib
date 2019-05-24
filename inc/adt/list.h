@@ -101,14 +101,12 @@ namespace cclib {
                 typedef ListIterator<T> iterator;
 
             public:
-                explicit List() : _size(0), _M_node(NULL) {
-                    _M_node = new Node<T>();
+                explicit List() : _size(0), _M_node(new Node<T>()) {
                     _M_node->_next = _M_node;
                     _M_node->_prev = _M_node;
                 }
 
-                List(List& instance): _size(0) {
-                     this->_M_node = new Node<T>();
+                List(List& instance): _size(0), _M_node(new Node<T>()) {
                     this->_M_node->_next = this->_M_node;
                     this->_M_node->_prev = this->_M_node;
                     operator=(instance);
@@ -172,7 +170,7 @@ namespace cclib {
                 }
 
                 bool pop_back() {
-                    erase(--end());  //TODO:
+                    erase(--end());
                     return true;
                 }
 
@@ -203,7 +201,7 @@ namespace cclib {
                 size_t _size;
                 Node<T>* _M_node;
         };
-    }
-}
+    } // namespace adt
+} // namespace cclib
 
 #endif  //CCLIB_ADT_LIST_H

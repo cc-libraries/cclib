@@ -12,9 +12,7 @@
 #ifndef CCLIB_ADT_VECTOR_H
 #define CCLIB_ADT_VECTOR_H
 
-// #include "iterator.h"
 #include <stddef.h>
-#include <iostream>
 
 namespace cclib {
     namespace adt {
@@ -174,7 +172,7 @@ namespace cclib {
                 size_t _storage_count;
                 T*  _M_array;
         };
-    }
-}
+    } // namespace adt
+} // namespace cclib
 
 #endif  //CCLIB_ADT_VECTOR_H
