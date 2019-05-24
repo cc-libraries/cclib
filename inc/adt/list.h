@@ -22,7 +22,7 @@ namespace cclib {
 
             Node():_data(T()), _prev(NULL), _next(NULL) {}
             Node(const T& data): _data(data) {}
-            Node(const T& data, Node* prev, Node* next): _data(T()), _prev(NULL), _next(NULL) {}
+            Node(const T& data, Node* prev, Node* next): _data(T()), _prev(prev), _next(next) {}
             // Node(const T& data): _data(new T(data)) {}
 
             bool operator==(const Node* instance) const {
@@ -107,8 +107,11 @@ namespace cclib {
                     _M_node->_prev = _M_node;
                 }
 
-                List( const List& instance): _size(instance._size) {
-                    *this = instance;
+                List(List& instance): _size(0) {
+                     this->_M_node = new Node<T>();
+                    this->_M_node->_next = this->_M_node;
+                    this->_M_node->_prev = this->_M_node;
+                    operator=(instance);
                 }
 
                 ~List() {
@@ -120,7 +123,7 @@ namespace cclib {
                     }
                 }
 
-                const List& operator=(const List& instance) {
+                const List& operator=(List& instance) {
                     if( this != &instance ) {
                         for(iterator itr = instance.begin(); itr != instance.end(); ++itr) {
                             push_back(*itr);
@@ -189,7 +192,6 @@ namespace cclib {
                     itr._M_node->_prev->_next = itr._M_node->_next;
                     itr._M_node->_next->_prev = itr._M_node->_prev;
 
-                    // itr._M_node->_data.~T();
                     delete itr._M_node;
                     itr._M_node = NULL;
                     _size--;

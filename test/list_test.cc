@@ -16,19 +16,19 @@ void listTest() {
     cclib::common::util::printListValue(cc);
 
     List<int>::iterator itr = cc.begin();
-    cout << "hello itr: " << *itr << endl;
+    cout << "itr: " << *itr << endl;
 
-    // List<int> aa = cc;
-    // List<int>::iterator itr1 = aa.begin();
-    // cout << "itr1: " << *itr1 << endl;
-    // itr1++;
-    // cout << "itr2: " << *itr1 << endl;
+    cc.pop_front();
+    cclib::common::util::printListValue(cc);
 
-    // cc.pop_back();
-    // cc.pop_back();
-    // cc.pop_back();
-    // cclib::common::util::printListValue(cc);
+    cc.pop_back();
+    cclib::common::util::printListValue(cc);
 
+    List<int> aa = cc;
+    List<int>::iterator itr1 = aa.begin();
+    cout << "itr1: " << *itr1 << endl;
+    itr1++;
+    cout << "itr2: " << *itr1 << endl;
 }
 
 int main(int argc, char const *argv[])
