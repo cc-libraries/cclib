@@ -10,20 +10,19 @@ using namespace cclib::adt;
 
 void listTest() {
     List<int> cc;
-    cc.push_back(1);
-    cc.push_back(2);
-    // cc.push_back(3);
-    // cclib::common::util::printListValue(cc);
+    cc.push_back(12);
+    cc.push_back(22);
+    cc.push_front(32);
+    cclib::common::util::printListValue(cc);
 
-    List<int>::iterator itr = cc.end();
-    cout << "cccc" << endl;
-    // cout << "hello itr: " << *itr << endl;
-    // cout << "hello itr1: " << *itr << endl;
-    // while(itr != cc.begin()) {
-    //     cout << "itr: " << *itr << endl;
-    //     --itr;
-    // }
+    List<int>::iterator itr = cc.begin();
+    cout << "hello itr: " << *itr << endl;
 
+    // List<int> aa = cc;
+    // List<int>::iterator itr1 = aa.begin();
+    // cout << "itr1: " << *itr1 << endl;
+    // itr1++;
+    // cout << "itr2: " << *itr1 << endl;
 
     // cc.pop_back();
     // cc.pop_back();

@@ -32,10 +32,10 @@ namespace cclib {
                 return (instance->_data != this->_data) && (instance->_prev != this->_prev) && (instance->_next != this->_next);
             }
 
-            // void operator delete(void* node) {
-            //     delete ((Node<T>*)node)->_data;
-            //     ((Node<T>*)node)->_prev = ((Node<T>*)node)->_next = NULL;
-            // }
+            void operator delete(void* node) {
+                ((Node<T>*)node)->_data.~T();
+                ((Node<T>*)node)->_prev = ((Node<T>*)node)->_next = NULL;
+            }
         };
 
         template<typename T>
@@ -55,9 +55,7 @@ namespace cclib {
                 ~ListIterator() {}
 
                 T operator*() {
-                    // return NULL == _M_node ? NULL : *(_M_node->_data);
-                    // std::cout << "_M_node: " << _M_node->_data << std::endl;
-                    return _M_node->_data;
+                    return NULL == _M_node ? NULL : _M_node->_data;
                 }
 
                 _Self operator++() {
@@ -103,24 +101,22 @@ namespace cclib {
 
             public:
                 explicit List() : _size(0), _M_node(NULL) {
-                    std::cout << "List" << std::endl;
-                    // _M_node = new Node<T>();
-                    // _M_node->_next = _M_node;
-                    // _M_node->_prev = _M_node;
+                    _M_node = new Node<T>();
+                    _M_node->_next = _M_node;
+                    _M_node->_prev = _M_node;
                 }
 
                 List( const List& instance): _size(instance._size) {
                     *this = instance;
-                    std::cout << "List(instance)" << std::endl;
                 }
 
                 ~List() {
                     clear();
 
-                    // if(NULL != _M_node) {
-                        // delete _M_node;
-                        // _M_node = NULL;
-                    // }
+                    if(NULL != _M_node) {
+                        delete _M_node;
+                        _M_node = NULL;
+                    }
                 }
 
                 const List& operator=(const List& instance) {
@@ -134,13 +130,11 @@ namespace cclib {
                 }
 
                 iterator begin() {
-                    return iterator(_M_node);
+                    return iterator((Node<T>*)_M_node->_next);
                 }
 
                 iterator end() {
-                    std::cout << "end(): " << std::endl;
-                    // std::cout << "end(): " << _M_node->_data << std::endl;
-                    return NULL == _M_node ? _M_node : iterator((Node<T>*)_M_node->_prev);
+                    return iterator(_M_node);
                 }
 
                 size_t size() const {
@@ -148,7 +142,7 @@ namespace cclib {
                 }
 
                 bool empty() const {
-                    return _M_node->_next == _M_node;
+                    return 0 == _size;
                 }
 
                 bool clear() {
@@ -174,28 +168,16 @@ namespace cclib {
                 }
 
                 bool pop_back() {
-                    iterator temp = end();
-                    erase(--temp);  //TODO:
+                    erase(--end());  //TODO:
                     return true;
                 }
 
                 iterator insert(iterator itr, const T& data) {
                     Node<T>* temp = new Node<T>(data);
-                    if(0 == _size) {
-                        _M_node = new Node<T>(data);
-                        _M_node->_next = _M_node;
-                        _M_node->_prev = _M_node;
-                    // } else if(1 == _size) {
-                    //     temp->_prev = itr._M_node;
-                    //     temp->_next = itr._M_node;
-                    //     itr._M_node->_prev = temp;
-                    //     itr._M_node->_next = temp;
-                    } else {
-                        temp->_next = itr._M_node;
-                        temp->_prev = itr._M_node->_prev;
-                        itr._M_node->_prev->_next = temp;
-                        itr._M_node->_prev = temp;
-                    }
+                    temp->_next = itr._M_node;
+                    temp->_prev = itr._M_node->_prev;
+                    itr._M_node->_prev->_next = temp;
+                    itr._M_node->_prev = temp;
                     _size++;
 
                     return temp;
@@ -206,8 +188,7 @@ namespace cclib {
                     itr._M_node->_prev->_next = itr._M_node->_next;
                     itr._M_node->_next->_prev = itr._M_node->_prev;
 
-                    // delete itr._M_node->_data;
-                    // itr._M_node->_data = NULL;
+                    // itr._M_node->_data.~T();
                     delete itr._M_node;
                     itr._M_node = NULL;
                     _size--;
