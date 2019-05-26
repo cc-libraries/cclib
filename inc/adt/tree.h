@@ -69,9 +69,9 @@ namespace cclib
 
                     if(data == root->_data)
                         return true;
-                    if(NULL != root->_leftChild)
+                    if(CC_NULL != root->_leftChild)
                         preOrderTraversalHandle(data, root->_leftChild);
-                    if(NULL != root->_rightChild)
+                    if(CC_NULL != root->_rightChild)
                         preOrderTraversalHandle(data, root->_rightChild);
 
                     return false;
@@ -80,11 +80,11 @@ namespace cclib
                 bool inOrderTraversalHandle(const Comparable& data, const BinaryNode<Comparable>* root) {
                     IS_POINT_NULL_POINT(root);
 
-                    if(NULL != root->_leftChild)
+                    if(CC_NULL != root->_leftChild)
                         inOrderTraversalHandle(data, root->_leftChild);
                     if(data == root->_data)
                         return true;
-                    if(NULL != root->_rightChild)
+                    if(CC_NULL != root->_rightChild)
                         inOrderTraversalHandle(data, root->_rightChild);
 
                     return false;
@@ -93,9 +93,9 @@ namespace cclib
                 bool postOrderTraversalHandle(const Comparable& data, const BinaryNode<Comparable>* root) {
                     IS_POINT_NULL_POINT(root);
 
-                    if(NULL != root->_leftChild)
+                    if(CC_NULL != root->_leftChild)
                         postOrderTraversalHandle(data, root->_leftChild);
-                    if(NULL != root->_rightChild)
+                    if(CC_NULL != root->_rightChild)
                         postOrderTraversalHandle(data, root->_rightChild);
                     if(data == root->_data)
                         return true;
@@ -106,8 +106,8 @@ namespace cclib
                 bool insert(const Comparable& data, const BinaryNode<Comparable>* root) {
                     bool result = true;
 
-                    if(NULL == root)
-                        root = new BinaryNode<Comparable>(data, NULL, NULL);
+                    if(CC_NULL == root)
+                        root = new BinaryNode<Comparable>(data, CC_NULL, CC_NULL);
                     else if(data < root->_data)
                         insert(data, root->_rightChild);
                     else if(data > root->_data)
@@ -119,7 +119,7 @@ namespace cclib
                 }
 
             private:
-                size_t _size;
+                cc_size_t _size;
                 BinaryNode<Comparable>* _M_node;
         };
     } // namespace adt

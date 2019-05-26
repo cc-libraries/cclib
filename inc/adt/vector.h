@@ -12,7 +12,7 @@
 #ifndef CCLIB_ADT_VECTOR_H
 #define CCLIB_ADT_VECTOR_H
 
-#include <stddef.h>
+#include "./../../cclib-common/inc/base/common_define.h"
 
 namespace cclib {
     namespace adt {
@@ -36,7 +36,7 @@ namespace cclib {
                 typedef T*    Iterator;
 
             public:
-                explicit Vector(size_t num = 0) : _size(0 == num ? 1 : num), _storage_count(0), _M_array(NULL) {
+                explicit Vector(cc_size_t num = 0) : _size(0 == num ? 1 : num), _storage_count(0), _M_array(CC_NULL) {
                     _M_array = new T[_size];
                  }
 
@@ -53,7 +53,7 @@ namespace cclib {
 
                 ~Vector() {
                     delete[] _M_array;
-                    _M_array = NULL;
+                    _M_array = CC_NULL;
                 }
 
                 Vector<T>& operator=(const Vector<T>& instance) {
@@ -69,7 +69,7 @@ namespace cclib {
                     return *this;
                 }
 
-                T& operator[] (size_t index) {
+                T& operator[] (cc_size_t index) {
                     return *(_M_array + index);
                 }
 
@@ -83,13 +83,13 @@ namespace cclib {
 
                 bool clear() {
                     delete[] _M_array;
-                    _M_array = NULL;
+                    _M_array = CC_NULL;
                     _size = _storage_count = 0;
 
                     return true;
                 }
 
-                size_t size() const {
+                cc_size_t size() const {
                     return _storage_count;
                 }
 
@@ -142,11 +142,11 @@ namespace cclib {
                 }
 
                 bool earse(Iterator position) {
-                    size_t pos = position - _M_array;
+                    cc_size_t pos = position - _M_array;
                     return earse(pos);
                 }
 
-                bool earse(size_t index) {
+                bool earse(cc_size_t index) {
                     if(index > _storage_count) return false;
 
                     for(int i = index; i < _size - 1; i++) {
@@ -168,8 +168,8 @@ namespace cclib {
                     delete[] _M_array;
                     _M_array = temp;
                 }
-                size_t _size;
-                size_t _storage_count;
+                cc_size_t _size;
+                cc_size_t _storage_count;
                 T*  _M_array;
         };
     } // namespace adt

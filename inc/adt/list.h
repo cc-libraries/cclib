@@ -12,6 +12,8 @@
 #ifndef CCLIB_ADT_LIST_H
 #define CCLIB_ADT_LIST_H
 
+#include "./../../cclib-common/inc/base/common_define.h"
+
 namespace cclib {
     namespace adt {
         template<typename T>
@@ -20,7 +22,7 @@ namespace cclib {
             Node* _prev;
             Node* _next;
 
-            Node():_data(T()), _prev(NULL), _next(NULL) {}
+            Node():_data(T()), _prev(CC_NULL), _next(CC_NULL) {}
             Node(const T& data): _data(data) {}
             Node(const T& data, Node* prev, Node* next): _data(T()), _prev(prev), _next(next) {}
             // Node(const T& data): _data(new T(data)) {}
@@ -35,7 +37,7 @@ namespace cclib {
 
             void operator delete(void* node) {
                 ((Node<T>*)node)->_data.~T();
-                ((Node<T>*)node)->_prev = ((Node<T>*)node)->_next = NULL;
+                ((Node<T>*)node)->_prev = ((Node<T>*)node)->_next = CC_NULL;
             }
         };
 
@@ -45,7 +47,7 @@ namespace cclib {
                 typedef ListIterator<T> _Self;
 
             public:
-                ListIterator(): _M_node(NULL) {}
+                ListIterator(): _M_node(CC_NULL) {}
 
                 ListIterator(Node<T>* nodeData) {
                     _M_node = nodeData;
@@ -56,28 +58,28 @@ namespace cclib {
                 ~ListIterator() {}
 
                 T operator*() {
-                    return NULL == _M_node ? NULL : _M_node->_data;
+                    return CC_NULL == _M_node ? CC_NULL : _M_node->_data;
                 }
 
                 _Self operator++() {
-                    _M_node = NULL == _M_node ? NULL : _M_node->_next;
+                    _M_node = CC_NULL == _M_node ? CC_NULL : _M_node->_next;
                     return *this;
                 }
 
                 _Self operator++(int) {
                     _Self _temp = *this;
-                    _M_node = NULL == _M_node ? NULL : _M_node->_next;
+                    _M_node = CC_NULL == _M_node ? CC_NULL : _M_node->_next;
                     return _temp;
                 }
 
                 _Self operator--() {
-                    _M_node = NULL == _M_node ? NULL : _M_node->_prev;
+                    _M_node = CC_NULL == _M_node ? CC_NULL : _M_node->_prev;
                     return *this;
                 }
 
                 _Self operator--(int) {
                     _Self _temp = *this;
-                    _M_node = NULL == _M_node ? NULL : _M_node->_prev;
+                    _M_node = CC_NULL == _M_node ? CC_NULL : _M_node->_prev;
                     return _temp;
                 }
 
@@ -115,9 +117,9 @@ namespace cclib {
                 ~List() {
                     clear();
 
-                    if(NULL != _M_node) {
+                    if(CC_NULL != _M_node) {
                         delete _M_node;
-                        _M_node = NULL;
+                        _M_node = CC_NULL;
                     }
                 }
 
@@ -139,7 +141,7 @@ namespace cclib {
                     return iterator(_M_node);
                 }
 
-                size_t size() const {
+                cc_size_t size() const {
                     return _size;
                 }
 
@@ -191,14 +193,14 @@ namespace cclib {
                     itr._M_node->_next->_prev = itr._M_node->_prev;
 
                     delete itr._M_node;
-                    itr._M_node = NULL;
+                    itr._M_node = CC_NULL;
                     _size--;
 
                     return iterator(nextNode);
                 }
 
             private:
-                size_t _size;
+                cc_size_t _size;
                 Node<T>* _M_node;
         };
     } // namespace adt

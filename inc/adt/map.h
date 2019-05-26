@@ -12,6 +12,8 @@
 #ifndef CCLIB_ADT_MAP_H
 #define CCLIB_ADT_MAP_H
 
+#include "./../../cclib-common/inc/base/common_define.h"
+
 namespace cclib
 {
     namespace adt
@@ -60,7 +62,7 @@ namespace cclib
                 const Map& operator=(const Map& instance) {}
                 iterator begin() {}
                 iterator end() {}
-                size_t size() const {}
+                cc_size_t size() const {}
                 bool empty() const {}
                 bool clear() {}
                 bool push_front(const T& data) {}
@@ -71,7 +73,7 @@ namespace cclib
                 iterator erase(iterator itr) {}
 
             private:
-                size_t _size;
+                cc_size_t _size;
         };
     } // namespace adt
 } // namespace cclib

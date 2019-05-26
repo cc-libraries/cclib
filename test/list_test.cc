@@ -1,8 +1,8 @@
 //COMPILE: g++ list_test.cc -std=c++11
 #include <iostream>
+#include "./../cclib-common/inc/base/precompile_define.h"
 #include "./../inc/adt/list.h"
 #include "./../cclib-common/inc/util/util.h"
-#include <list>
 
 using namespace std;
 using namespace cclib;
