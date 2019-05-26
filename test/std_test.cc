@@ -23,10 +23,20 @@ void foo() {
 
 void foo1() {
     std::map<int,char> example = {{1,'a'},{2,'b'}};
-
+    cout << "map size: " <<example.size() << endl;
+    example.insert(std::pair<int,char>(1, 'c'));
+    cout << "map size1: " <<example.size() << endl;
     auto search = example.find(2);
     if(search != example.end()) {
         std::cout << "Found " << search->first << " " << search->second << '\n';
+    }
+    else {
+        std::cout << "Not found\n";
+    }
+
+    auto search1 = example.find('a');
+    if(search1 != example.end()) {
+        std::cout << "Found1 " << search1->first << " " << search1->second << '\n';
     }
     else {
         std::cout << "Not found\n";
@@ -37,6 +47,6 @@ void foo1() {
 int main(int argc, char const *argv[])
 {
     /* code */
-    foo();
+    foo1();
     return 0;
 }
