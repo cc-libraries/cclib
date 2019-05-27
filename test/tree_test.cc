@@ -2,33 +2,34 @@
 #include "./../cclib-common/inc/base/common_define.h"
 #include "./../cclib-common/inc/util/util.h"
 #include "./../inc/adt/tree.h"
+#include "./../inc/adt/pair.h"
 #include <iostream>
 
 using namespace std;
 using namespace cclib::adt;
 
-// void binarySearchTreeTest() {
-//     BinarySearchTree<int> cc;
-//     cc.insert(11);
-//     cc.insert(12);
-//     cc.insert(13);
-//     cout << "size: " << cc.size() << endl;
-//     cclib::common::util::printTreeValue(cc);
+void binarySearchTreeTest() {
+    BinarySearchTree<int> cc;
+    cc.insert(11);
+    cc.insert(12);
+    cc.insert(13);
+    cout << "size: " << cc.size() << endl;
+    cclib::common::util::printTreeValue(cc);
 
-//     int a = cc.find(12);
-//     cout << "a: " << a << endl;
+    int a = cc.find(12);
+    cout << "a: " << a << endl;
 
-//     cout << cc.contains(14) << endl;
-//     cout << cc.contains(11) << endl;
+    cout << cc.contains(14) << endl;
+    cout << cc.contains(11) << endl;
 
-//     cc.remove(12);
-//     cout << "size: " << cc.size() << endl;
-//     cclib::common::util::printTreeValue(cc);
+    cc.remove(12);
+    cout << "size: " << cc.size() << endl;
+    cclib::common::util::printTreeValue(cc);
 
-//     cc.clear();
-//     cout << "size: " << cc.size() << endl;
-//     cclib::common::util::printTreeValue(cc);
-// }
+    cc.clear();
+    cout << "size: " << cc.size() << endl;
+    cclib::common::util::printTreeValue(cc);
+}
 
 void binarySearchTreeTest1() {
     BinarySearchTree<cclib::adt::Pair<int, int>> cc;
@@ -56,6 +57,7 @@ void binarySearchTreeTest1() {
 int main(int argc, char const *argv[])
 {
     /* code */
+    binarySearchTreeTest();
     binarySearchTreeTest1();
     return 0;
 }

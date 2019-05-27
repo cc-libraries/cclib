@@ -17,16 +17,46 @@
  * left subtree of a node contains only values lesser, than the node's value;
  * right subtree of a node contains only values greater, than the node's value.
 *************************/
+/************************
+ * NOTICE: Red Black tree
+ * Every node has a color either red or black.
+ * Root of tree is always black.
+ * There are no two adjacent red nodes (A red node cannot have a red parent or red child).
+ * Every path from a node (including root) to any of its descendant NULL node has the same number of black nodes.
+************************/
 #ifndef CCLIB_ADT_TREE_H
 #define CCLIB_ADT_TREE_H
 #include "./../../cclib-common/inc/base/common_define.h"
-#include <iostream>
-#include <string>
 
 namespace cclib
 {
     namespace adt
     {
+        enum RedBlackColor {_Red, _Black};
+
+        template<typename Comparable>
+        struct RedBlackNode {
+            Comparable _data;
+            RedBlackNode* _leftChild;
+            RedBlackNode* _rightChild;
+            RedBlackColor _color;
+
+            RedBlackNode(): _data(Comparable()), _leftChild(CC_NULL), _rightChild(CC_NULL), _color(_Black) {}
+            RedBlackNode(const Comparable& data, RedBlackNode* leftChild, RedBlackNode* rightChild, RedBlackColor color):
+             _data(data), _leftChild(leftChild), _rightChild(rightChild), _color(color) {}
+        };
+
+        template<typename Comparable>
+        class RedBlackTree {
+            public:
+            RedBlackTree(): _size(0), _M_node(CC_NULL) {}
+
+
+            private:
+            cc_size_t _size;
+            RedBlackNode<Comparable>* _M_node;
+        };
+
         template<typename Comparable>
         struct BinaryNode {
             Comparable _data;
@@ -36,46 +66,11 @@ namespace cclib
             : _data(data), _leftChild(leftChild), _rightChild(rightChild) {}
         };
 
-        template<typename _Key, typename _Value>
-        struct Pair {
-            _Key _key;
-            _Value _value;
-
-            Pair() {}
-            Pair(const _Key& key, const _Value& value): _key(key), _value(value) {}
-            Pair(const _Key& key): _key(key), _value(CC_NULL) {}
-
-            Pair& operator=(const Pair& instance) {
-                this->_key = instance._key;
-                this->_value = instance._value;
-            }
-
-            bool operator==(const Pair& instance) const {
-                return this->_key == instance._key;
-            }
-
-            bool operator!=(const Pair& instance) const {
-                return this->_key != instance._key;
-            }
-
-            bool operator<(const Pair& instance) const {
-                return this->_value < instance._value;
-            }
-
-            bool operator>(const Pair& instance) const {
-                return this->_value > instance._value;
-            }
-
-            static std::string to_string(Pair& instance) {
-                return std::to_string(instance._key) + " " + std::to_string(instance._value);
-            }
-        };
-
         template<typename Comparable>
         class BinarySearchTree {
             public:
                 BinarySearchTree(): _size(0), _M_node(CC_NULL) {}
-                BinarySearchTree(const BinarySearchTree& instance) {}
+                // BinarySearchTree(const BinarySearchTree& instance) {}
                 ~BinarySearchTree() {
                     // clear();
                 }
@@ -124,26 +119,20 @@ namespace cclib
                 }
 
                 bool remove(const Comparable& data, BinaryNode<Comparable>*& root) {
-                    // std::cout << "root: " << root << " data:" << data << std::endl;
                     if(CC_NULL == root) {   //not found
                         return false;
                     }
 
-                    // std::cout << "root->_data: " << root->_data << " root->_leftChild: " << root->_leftChild << " root->_rightChild: " << root->_rightChild << std::endl;
                     if(data < root->_data) {
-                        // std::cout << "root->_data1: " << root->_data << std::endl;
                         remove(data, root->_leftChild);
                     } else if(data > root->_data) {
-                        // std::cout << "root->_data2: " << root->_data << " root->_rightChild: " << root->_rightChild << std::endl;
                         remove(data, root->_rightChild);
                     } else if(data == root->_data && root->_leftChild != CC_NULL && root->_rightChild != CC_NULL) {
-                        // std::cout << "root->_data3: " << root->_data << std::endl;
                         //TODO: root->_data.~Comparable();
                         root->_data = findMin(root->_rightChild)->_data;
                         remove(root->_data, root->_rightChild);
                     } else {    //data == root->_data && (root->_leftChild != CC_NULL || root->_rightChild != CC_NULL)
                         //TODO: delete root->data?
-                        // std::cout << "root->_data4: " << root->_data << std::endl;
                         root = (root->_leftChild != CC_NULL) ? root->_leftChild : root->_rightChild;
                         --_size;
                         return true;
@@ -183,7 +172,6 @@ namespace cclib
                         return find(key, root->_rightChild);
                     }
 
-                    std::cout << "result: " <<std::endl;
                     return CC_NULL;
                 }
 
