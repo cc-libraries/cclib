@@ -40,10 +40,12 @@ namespace cclib
             public:
                 BinarySearchTree(): _size(0), _M_node(CC_NULL) {}
                 BinarySearchTree(const BinarySearchTree& instance) {}
-                ~BinarySearchTree() {}
+                ~BinarySearchTree() {
+                    // clear();
+                }
 
             public:
-                bool contains(const Comparable& data) const {
+                bool contains(const Comparable& data) {
                     return preOrderTraversalHandle(data, this->_M_node);
                 }
 
@@ -76,7 +78,7 @@ namespace cclib
                 }
 
             private:
-                bool clear(BinaryNode<Comparable>* root) {
+                bool clear(BinaryNode<Comparable>*& root) {
                     if(CC_NULL == root) {
                         return true;
                     }

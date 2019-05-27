@@ -4,6 +4,7 @@
 #include "./../inc/adt/tree.h"
 #include <iostream>
 
+using namespace std;
 using namespace cclib::adt;
 
 void binarySearchTreeTest() {
@@ -11,14 +12,21 @@ void binarySearchTreeTest() {
     cc.insert(11);
     cc.insert(12);
     cc.insert(13);
-    std::cout << "size: " << cc.size() << std::endl;
+    cout << "size: " << cc.size() << endl;
     cclib::common::util::printTreeValue(cc);
 
     int a = cc.find(12);
-    std::cout << "a: " << a << std::endl;
+    cout << "a: " << a << endl;
+
+    cout << cc.contains(14) << endl;
+    cout << cc.contains(11) << endl;
 
     cc.remove(12);
-    std::cout << "size: " << cc.size() << std::endl;
+    cout << "size: " << cc.size() << endl;
+    cclib::common::util::printTreeValue(cc);
+
+    cc.clear();
+    cout << "size: " << cc.size() << endl;
     cclib::common::util::printTreeValue(cc);
 }
 
