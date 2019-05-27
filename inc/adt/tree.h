@@ -32,29 +32,309 @@ namespace cclib
 {
     namespace adt
     {
-        enum RedBlackColor {_Red, _Black};
+        enum RedBlackColor {EN_Red, EN_Black};
 
         template<typename Comparable>
         struct RedBlackNode {
             Comparable _data;
+            RedBlackColor _color;
+            RedBlackNode* _parent;
             RedBlackNode* _leftChild;
             RedBlackNode* _rightChild;
-            RedBlackColor _color;
 
-            RedBlackNode(): _data(Comparable()), _leftChild(CC_NULL), _rightChild(CC_NULL), _color(_Black) {}
-            RedBlackNode(const Comparable& data, RedBlackNode* leftChild, RedBlackNode* rightChild, RedBlackColor color):
-             _data(data), _leftChild(leftChild), _rightChild(rightChild), _color(color) {}
+            RedBlackNode(): _data(Comparable()), _parent(CC_NULL), _leftChild(CC_NULL), _rightChild(CC_NULL), _color(EN_Black) {}
+            RedBlackNode(const Comparable& data, RedBlackColor color, RedBlackNode* parent, RedBlackNode* leftChild, RedBlackNode* rightChild):
+             _data(data), _color(color), _parent(parent), _leftChild(leftChild), _rightChild(rightChild) {}
+
+            RedBlackNode* grandParent() {
+                if(CC_NULL == this->_parent) {
+                    return CC_NULL;
+                }
+
+                return this->_parent->_parent;
+            }
+
+            RedBlackNode* uncle() {
+                if(CC_NULL == grandParent()) {
+                    return CC_NULL;
+                }
+
+                return this->_parent == grandParent()->_rightChild ? grandParent()->_leftChild : grandParent()->_rightChild;
+            }
+
+            RedBlackNode* sibling() {
+                return this->_parent->_leftChild == this ? this->_parent->_rightChild | this->_parent->_leftChild;
+            }
         };
 
         template<typename Comparable>
         class RedBlackTree {
             public:
-            RedBlackTree(): _size(0), _M_node(CC_NULL) {}
+            RedBlackTree(): _size(0), _M_node(CC_NULL), _M_Nil(new RedBlackNode<Comparable>()) {}
+            // RedBlackTree(const Comparable& data) {}
+            // RedBlackTree(const RedBlackTree& instance) {}
+            ~RedBlackTree() {
+                if(_M_header) {
+                    remove(_M_header);
+                }
+            }
 
+            // const RedBlackTree& operator=(const RedBlackTree& instance) {}
+            bool contains(const Comparable& data) const {}
+            bool empty() const {}
+            cc_size_t size() {}
+            bool clear() {}
+
+            bool insert(const Comparable& data) {
+                if(CC_NULL == _M_header) {
+                    _M_header = new RedBlackNode<Comparable>(data, EN_Black, CC_NULL, CC_NULL, CC_NULL);
+                } else {
+                    insert(_M_header, data);
+                }
+            }
+            bool remove(const Comparable& data) {
+                remove(_M_header, data);
+            }
+
+            Comparable find(const Comparable& data) {
+
+            }
 
             private:
-            cc_size_t _size;
-            RedBlackNode<Comparable>* _M_node;
+                bool remove(RedBlackNode<Comparable>* node, Comparable& data) {
+                    if(node->_data > data) {
+                        if(node->_leftChild == _M_Nil) {
+                            return false;
+                        }
+                        return remove(node->_leftChild, data);
+                    } else if(node->_data < data) {
+                        if(node->_rightChild == _M_Nil) {
+                            return false;
+                        }
+                        return remove(node->_rightChild, data);
+                    } else {    //node->_data == data
+                        if(node->_rightChild == _M_Nil) {
+                            removeChild(node);
+                            return ture;
+                        }
+                        RedBlackNode<Comparable>* minNode = findMin(node->_rightChild);
+                        std::swap(node->_data, minNode->_data);
+                        removeChild(minNode);
+                        return true;
+                    }
+                }
+
+                RedBlackNode<Comparable>* findMin(RedBlackNode<Comparable>* node) {
+                    if(node->_leftChild == _M_Nil) {
+                        return node;
+                    }
+
+                    return findMin(node->_leftChild);
+                }
+
+                void removeChild(RedBlackNode<Comparable>* node) {
+                    RedBlackNode<Comparable>* child = node->_leftChild == _M_Nil ? node->_rightChild : node->_leftChild;
+                    if(node->_parent == CC_NULL && node->_leftChild == _M_Nil && node->_rightChild == _M_Nil) {
+                        node = CC_NULL;
+                        _M_header = node;
+                        return;
+                    }
+
+                    if(CC_NULL == node->_parent) {
+                        delete node;
+                        child->_parent = CC_NULL;
+                        _M_header = child;
+                        _M_header->_color = EN_Black;
+                        return;
+                    }
+
+                    if(node->_parent->_leftChild == node) {
+                        node->_parent->_leftChild = child;
+                    } else {
+                        node->_parent->_rightChild = child;
+                    }
+                    child->_parent = node->_parent;
+
+                    if(EN_Black == node->_color) {
+                        if(EN_Red == child->_color) {
+                            child->_color = EN_Black;
+                        } else {
+                            remove(child);
+                        }
+                    }
+                }
+
+                void remove(RedBlackNode<Comparable>* node) {
+                    if(CC_NULL == node->_parent) {
+                        node->_color = EN_Black;
+                        return;
+                    }
+
+                    if(EN_Red == node->sibling()->_color) {
+                        node->_parent->_color = EN_Red;
+                        node->sibling()->_color = EN_Black;
+                        if(node == node->_parent->_leftChild) {
+                            rotateLeft(node->_parent);
+                        } else {
+                            rotateRight(node->_parent);
+                        }
+                    }
+
+                    if( (EN_Black == node->_parent->_color) && (EN_Black == node->sibling()->_color) &&
+                    (EN_Black == node->sibling()->_leftChild->_color) && (EN_Black == node->sibling()->_rightChild->_color)) {
+                        node->sibling()->_color = EN_Red;
+                        remove(node->_parent);
+                    } else if((EN_Red == node->_parent->_color) && (EN_Black == node->sibling()->_color) &&
+                    (EN_Black == node->sibling()->_leftChild->_color) && (EN_Black == node->sibling()->_rightChild->_color)) {
+                        node->sibling()->_color = EN_Red;
+                        node->_parent->_color = EN_Black;
+                    } else {
+                        if(EN_Black == node->sibling()->_color) {
+                            if((node == node->_parent->_leftChild) && (EN_Red == node->sibling()->_leftChild->_color) &&
+                            (EN_Black == node->sibling()->_rightChild->_color)) {
+                                node->sibling()->_color = EN_Red;
+                                node->sibling()->_leftChild->_color = EN_Black;
+                                rotateRight(node->sibling()->_leftChild);
+                            } else if((node == node->_parent->_rightChild) && (EN_Black == node->sibling()->_leftChild->_color) &&
+                            (EN_Red == node->sibling()->_rightChild->_color)) {
+                                node->sibling()->_color = EN_Red;
+                                node->sibling()->_rightChild->_color = EN_Black;
+                                rotateLeft(node->sibling()->_rightChild);
+                            }
+                        }
+                        node->sibling()->_color = node->_parent->_color;
+                        node->_parent->_color = EN_Black;
+                        if(node == node->_parent->_leftChild) {
+                            node->sibling()->_rightChild->_color = EN_Black;
+                            rotateLeft(node->sibling());
+                        } else {
+                            node->sibling()->_leftChild->_color = EN_Black;
+                            rotateRight(node->sibling());
+                        }
+                    }
+                }
+
+                bool insert(RedBlackNode<Comparable>*& node, const Comparable& data) {
+                    if(node->_data >= data) {
+                        if(node->_leftChild != _M_Nil) {
+                            insert(node->_leftChild, data);
+                        } else {
+                            RedBlackNode<Comparable>* temp =
+                            new RedBlackNode<Comparable>(data, EN_Red, node, _M_Nil, _M_Nil);
+                            node->_leftChild = temp;
+                            insertHandle(node);
+                        }
+                    } else {
+                        if(node->_rightChild != _M_Nil) {
+                            insert(node->_rightChild, data);
+                        } else {
+                            RedBlackNode<Comparable>* temp =
+                             new RedBlackNode<Comparable>(data, EN_Red, node, _M_Nil, _M_Nil);
+                             node->_rightChild = temp;
+                             insertHandle(node);
+                        }
+                    }
+                }
+
+                bool insertHandle(RedBlackNode<Comparable>*& node) {
+                    if(node->_parent == CC_NULL) {
+                        _M_header = node;
+                        _M_header->_color = EN_Black;
+                        return true;
+                    }
+
+                    if(EN_Red == node->_parent->_color) {
+                        if(EN_Red == node->uncle()->_color) {
+                            node->_parent->_color = node->uncle()->_color = EN_Black;
+                            node->grandParent()->_color = EN_Red;
+                            insertHandle(node->grandParent());
+                        } else {
+                            if(node->_parent->_rightChild == node && node->grandParent()->_leftChild == node->_parent) {
+                                rotateLeft(node);
+                                rotateRight(node);
+                                node->_color = EN_Black;
+                                node->_leftChild->_color = node->_rightChild->_color = EN_Red;
+                            } else if(node->_parent->_leftChild == node && node->grandParent()->_rightChild == node->_parent) {
+                                rotateRight(node);
+                                rotateLeft(node);
+                                node->_color = EN_Black;
+                                node->_leftChild->_color = node->_rightChild->_color = EN_Red;
+                            } else if(node->_parent->_leftChild == node && node->grandParent()->_leftChild == node->_parent) {
+                                node->_parent->_color = EN_Black;
+                                node->grandParent()->_color = EN_Red;
+                                rotateRight(node->_parent);
+                            } else {    //node->_parent->_rightChild == node && node->grandParent()->_rightChild == node->_parent
+                                node->_parent->_color = EN_Black;
+                                node->grandParent()->_color = EN_Red;
+                                rotateLeft(node->_parent);
+                            }
+                        }
+                    }
+                }
+
+                void rotateRight(RedBlackNode<Comparable>* node) {
+                    RedBlackNode<Comparable>* grandParent = node->grandParent();
+                    RedBlackNode<Comparable>* parent = node->_parent;
+                    RedBlackNode<Comparable>* rightChild = node->_rightChild;
+
+                    parent->_leftChild = rightChild;
+
+                    if(rightChild != _M_Nil) {
+                        rightChild->_parent = parent;
+                    }
+
+                    node->_rightChild = parent;
+                    parent->_parent = node;
+
+                    if(_M_header == parent) {
+                        _M_header = node;
+                    }
+                    node->_parent = grandParent;
+
+                    if(CC_NULL != grandParent) {
+                        if(grandParent->_leftChild == parent) {
+                            grandParent->_leftChild = node;
+                        } else {
+                            grandParent->_rightChild = node;
+                        }
+                    }
+                }
+
+                void rotateLeft(RedBlackNode<Comparable>* node) {
+                    if(node->_parent == CC_NULL) {
+                        _M_header = node;
+                        return;
+                    }
+
+                    RedBlackNode<Comparable>* grandParent = node->grandParent();
+                    RedBlackNode<Comparable>* parent = node->_parent;
+                    RedBlackNode<Comparable>* leftChild = node->_leftChild;
+                    parent->_rightChild = leftChild;
+
+                    node->_rightChild = parent;
+                    if(leftChild != _M_Nil) {
+                        leftChild->_parent = parent;
+                    }
+                    node->_leftChild = parent;
+                    parent->_parent = node;
+
+                    if(_M_header == parent) {
+                        _M_header = node;
+                    }
+                    node->_parent = grandParent;
+
+                    if(CC_NULL != grandParent) {
+                        if(grandParent->_leftChild == parent) {
+                            grandParent->_leftChild = node;
+                        } else {
+                            grandParent->_rightChild = node;
+                        }
+                    }
+                }
+
+            private:
+                cc_size_t _size;
+                RedBlackNode<Comparable>* _M_header, _M_Nil;
         };
 
         template<typename Comparable>
@@ -72,7 +352,7 @@ namespace cclib
                 BinarySearchTree(): _size(0), _M_node(CC_NULL) {}
                 // BinarySearchTree(const BinarySearchTree& instance) {}
                 ~BinarySearchTree() {
-                    // clear();
+                    clear();
                 }
 
             public:
@@ -128,12 +408,13 @@ namespace cclib
                     } else if(data > root->_data) {
                         remove(data, root->_rightChild);
                     } else if(data == root->_data && root->_leftChild != CC_NULL && root->_rightChild != CC_NULL) {
-                        //TODO: root->_data.~Comparable();
+                        root->_data.~Comparable();  //NOTICE: destruct?
                         root->_data = findMin(root->_rightChild)->_data;
                         remove(root->_data, root->_rightChild);
                     } else {    //data == root->_data && (root->_leftChild != CC_NULL || root->_rightChild != CC_NULL)
-                        //TODO: delete root->data?
+                        BinaryNode<Comparable>* temp = root;
                         root = (root->_leftChild != CC_NULL) ? root->_leftChild : root->_rightChild;
+                        delete temp;    //NOTICE: delete?
                         --_size;
                         return true;
                     }
