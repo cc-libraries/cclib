@@ -21,6 +21,7 @@
 #define CCLIB_ADT_TREE_H
 #include "./../../cclib-common/inc/base/common_define.h"
 #include <iostream>
+#include <string>
 
 namespace cclib
 {
@@ -33,6 +34,41 @@ namespace cclib
             BinaryNode* _rightChild;
             BinaryNode(const Comparable& data, BinaryNode* leftChild, BinaryNode* rightChild)
             : _data(data), _leftChild(leftChild), _rightChild(rightChild) {}
+        };
+
+        template<typename _Key, typename _Value>
+        struct Pair {
+            _Key _key;
+            _Value _value;
+
+            Pair() {}
+            Pair(const _Key& key, const _Value& value): _key(key), _value(value) {}
+            Pair(const _Key& key): _key(key), _value(CC_NULL) {}
+
+            Pair& operator=(const Pair& instance) {
+                this->_key = instance._key;
+                this->_value = instance._value;
+            }
+
+            bool operator==(const Pair& instance) const {
+                return this->_key == instance._key;
+            }
+
+            bool operator!=(const Pair& instance) const {
+                return this->_key != instance._key;
+            }
+
+            bool operator<(const Pair& instance) const {
+                return this->_value < instance._value;
+            }
+
+            bool operator>(const Pair& instance) const {
+                return this->_value > instance._value;
+            }
+
+            static std::string to_string(Pair& instance) {
+                return std::to_string(instance._key) + " " + std::to_string(instance._value);
+            }
         };
 
         template<typename Comparable>
