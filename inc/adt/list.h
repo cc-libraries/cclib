@@ -27,11 +27,11 @@ namespace cclib {
             Node(const T& data, Node* prev, Node* next): _data(T()), _prev(prev), _next(next) {}
             // Node(const T& data): _data(new T(data)) {}
 
-            bool operator==(const Node* instance) const {
+            bool operator==(const Node*& instance) const {
                 return (instance->_data == this->_data) && (instance->_prev == this->_prev) && (instance->_next == this->_next);
             }
 
-            bool operator!=(const Node* instance) const {
+            bool operator!=(const Node*& instance) const {
                 return (instance->_data != this->_data) && (instance->_prev != this->_prev) && (instance->_next != this->_next);
             }
 

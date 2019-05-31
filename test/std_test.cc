@@ -42,6 +42,8 @@ void foo1() {
         std::cout << "Not found\n";
     }
 
+    example.erase(1);
+    cout << "map size2: " <<example.size() << endl;
 }
 
 int main(int argc, char const *argv[])
