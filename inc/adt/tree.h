@@ -33,6 +33,7 @@ namespace cclib
     namespace adt
     {
         enum RedBlackColor {EN_Red, EN_Black};
+        enum RedBlackDirection{EN_Left, EN_Right};
 
         template<typename Comparable>
         struct RedBlackNode {
@@ -68,6 +69,10 @@ namespace cclib
 
             RedBlackNode* self() {
                 return this->_parent->_leftChild == this ? this->_parent->_leftChild | this->_parent->_rightChild;
+            }
+
+            RedBlackDirection direction() {
+                return this->_parent->_leftChild == this ? EN_Left : EN_Right;
             }
 
             // bool operator==(RedBlackNode<Comparable>*& node) const {
@@ -188,15 +193,15 @@ namespace cclib
                 void insertFixUp(const RedBlackNode<Comparable>*& node) {
                     if(EN_Red == node->_parent->_color) {
                         RedBlackNode<Comparable>* uncle = node->uncle();
-                        if((_M_Nil != uncle) && (EN_Red == uncle->_color)) {
+                        if(_M_Nil != uncle) {   //uncle->_color == EN_Red
                             node->_parent->_color = EN_Black;
                             uncle->_color = EN_Black;
                             node->grandParent()->_color = EN_Red;
                             insertFixUp(node->grandParent());
                         } else {
-                             if(node == node->_parent->_rightChild && node->_parent == node->grandParent()->_leftChild) {
+                             if(EN_Right == node->direction() && EN_Left == node->_parent->direction()) {
                                  rotateLeft(node->_parent);
-                             } else if(node == node->_parent->_leftChild && node->_parent == node->grandParent()->_rightChild) {
+                             } else if(EN_Left == node->direction() && EN_Right == node->_parent->direction()) {
                                  rotateRight(node->_parent);
                              }
 
