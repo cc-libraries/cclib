@@ -153,7 +153,7 @@ namespace cclib
                     //NOTICE:_M_Nil == node->_leftChild
                     if(EN_Red == node->_color) {
                         // deleteNode(node);
-                        node->_data.~Comparable();  //TODO: destruct?
+                        // node->_data.~Comparable();  //TODO: destruct?
                         node->_parent->_leftChild = _M_Nil;
                         return;
                     }
@@ -161,12 +161,12 @@ namespace cclib
                     //EN_Black == node->_color
                     if(_M_Nil == node->_rightChild) {
                         rotateLeft(node->_parent);
-                        node->_data.~Comparable();  //TODO: destruct?
+                        // node->_data.~Comparable();  //TODO: destruct?
                         node->_parent->_leftChild = _M_Nil;
                         // deleteNode(node);
                     } else {    //EN_Red == node->_rightChild->_color
                         node->_data = node->_rightChild->_data;
-                        node->_rightChild->_data.~Comparable();  //TODO: destruct?
+                        // node->_rightChild->_data.~Comparable();  //TODO: destruct?
                         node->_rightChild = _M_Nil;
                     }
                 }
@@ -181,7 +181,7 @@ namespace cclib
                     } else if(data > root->_data) {
                         return remove(data, root->_rightChild);
                     } else if(data = root->_data){
-                        root->_data.~Comparable();  //TODO: destruct?
+                        // root->_data.~Comparable();  //TODO: destruct?
                          RedBlackNode<Comparable>*& result = findMin(root->_rightChild);
                         root->_data = result->_data;    //NOTICE: not delete root->_rightChild
                         return result;
@@ -357,22 +357,12 @@ namespace cclib
                     } else if(data > root->_data) {
                         remove(data, root->_rightChild);
                     } else if(data == root->_data && root->_leftChild != CC_NULL && root->_rightChild != CC_NULL) {
-                        root->_data.~Comparable();  //NOTICE: destruct?
+                        // root->_data.~Comparable();  //NOTICE: destruct?
                         root->_data = findMin(root->_rightChild)->_data;
                         remove(root->_data, root->_rightChild);
                     } else {    //data == root->_data && (root->_leftChild != CC_NULL || root->_rightChild != CC_NULL)
                         BinaryNode<Comparable>* temp = root;
-                        if(root->_leftChild != CC_NULL) {
-                            root = root->_leftChild;
-                            // root->_leftChild->_data.~Comparable();
-                            // delete root->_leftChild;
-                            // root->_leftChild = CC_NULL;
-                        } else {
-                            root = root->_rightChild;
-                            // root->_rightChild->_data.~Comparable();
-                            // delete root->_rightChild;
-                            // root->_rightChild = CC_NULL;
-                        }
+                        root = root->_leftChild != CC_NULL ? root->_leftChild : root->_rightChild;
                         delete temp;    //NOTICE: delete?
                         --_size;
                         return true;

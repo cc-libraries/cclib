@@ -33,9 +33,10 @@ void binarySearchTreeTest() {
 
 void binarySearchTreeTest1() {
     BinarySearchTree<cclib::adt::Pair<int, int>> cc;
-    cc.insert(Pair<int, int>(11, 22));
     cc.insert(Pair<int, int>(12, 22));
+    cc.insert(Pair<int, int>(11, 21));
     cc.insert(Pair<int, int>(13, 23));
+    // cc.insert(Pair<int, int>(15, 25));
     cout << "size: " << cc.size() << endl;
     cclib::common::util::printTreeValue(cc);
 
@@ -53,12 +54,21 @@ void binarySearchTreeTest1() {
     cc.clear();
     cout << "size: " << cc.size() << endl;
     cclib::common::util::printTreeValue(cc);
+    cout << "end" << endl;
+}
+
+void redBlackTreeTest() {
+    RedBlackTree<int> cc;
+    cc.insert(11);
+    cc.insert(12);
+    cc.insert(13);
+    cout << "size: " << cc.size() << endl;
 }
 
 int main(int argc, char const *argv[])
 {
     /* code */
     // binarySearchTreeTest();
-    binarySearchTreeTest1();
+    redBlackTreeTest();
     return 0;
 }
