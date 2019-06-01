@@ -118,7 +118,7 @@ namespace cclib
             }
 
             bool insert(const Comparable& data) {
-                RedBlackNode<Comparable>*& node = new RedBlackNode<Comparable>(data, EN_Black, CC_NULL, CC_NULL, CC_NULL);
+                RedBlackNode<Comparable>*& node = new RedBlackNode<Comparable>(data, EN_Black, CC_NULL, _M_Nil, _M_Nil);
                 bool retsult = true;
                 if(_M_Nil == _M_header) {
                     _M_header = node;
@@ -237,14 +237,14 @@ namespace cclib
                     RedBlackNode<Comparable>* x = y->_leftChild;
                     y->_leftChild = x->_rightChild; //1. rotate x child
 
-                    if(CC_NULL != x->_rightChild) { //2. rotate child parent
+                    if(_M_Nil != x->_rightChild) { //2. rotate child parent
                         x->_rightChild->_parent = y;
                     }
 
                     x->_parent = y->_parent;    //3. rotate x parent
 
                     //rotate y parent child
-                    if(CC_NULL == y->_parent) {
+                    if(_M_Nil == y->_parent) {
                         _M_header = x;
                     } else if(y->_parent->_leftChild = y) {
                         y->_parent->_leftChild = x;
@@ -261,13 +261,13 @@ namespace cclib
                     RedBlackNode<Comparable>* y = x->_leftChild;
                     x->_rightChild = y->_leftChild; //1. rotate y child
 
-                    if(CC_NULL != y->_leftChild) {
+                    if(_M_Nil != y->_leftChild) {
                         y->_leftChild->_parent = x->_parent;    //2. rotate child parent
                     }
 
                     y->_parent = x->_parent;    //3. rotate y parent
 
-                    if(CC_NULL == x->_parent) { //4. rotate x parent child
+                    if(_M_Nil == x->_parent) { //4. rotate x parent child
                         _M_header = y;
                     } else if(x == x->_parent->_leftChild) {
                         x->_parent->_leftChild = y;
