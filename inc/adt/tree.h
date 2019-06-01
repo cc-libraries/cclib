@@ -64,11 +64,11 @@ namespace cclib
             }
 
             RedBlackNode* sibling() {
-                return this->_parent->_leftChild == this ? this->_parent->_rightChild | this->_parent->_leftChild;
+                return this->_parent->_leftChild == this ? this->_parent->_rightChild : this->_parent->_leftChild;
             }
 
             RedBlackNode* self() {
-                return this->_parent->_leftChild == this ? this->_parent->_leftChild | this->_parent->_rightChild;
+                return this->_parent->_leftChild == this ? this->_parent->_leftChild : this->_parent->_rightChild;
             }
 
             RedBlackDirection direction() {
@@ -119,11 +119,11 @@ namespace cclib
 
             bool insert(const Comparable& data) {
                 RedBlackNode<Comparable>*& node = new RedBlackNode<Comparable>(data, EN_Black, CC_NULL, _M_Nil, _M_Nil);
-                bool retsult = true;
+                bool result = true;
                 if(_M_Nil == _M_header) {
                     _M_header = node;
                 } else {
-                    retsult = insert(node, _M_header);
+                    result = insert(node, _M_header);
                 }
 
                 if(result) {
@@ -313,7 +313,8 @@ namespace cclib
                 }
 
                 bool insert(const Comparable& data) {
-                    insert(data, this->_M_node);
+                    bool result = insert(data, this->_M_node);
+                    return result;
                 }
 
                 bool remove(const Comparable& data) {
@@ -363,14 +364,14 @@ namespace cclib
                         BinaryNode<Comparable>* temp = root;
                         if(root->_leftChild != CC_NULL) {
                             root = root->_leftChild;
-                            root->_leftChild->_data.~Comparable();
-                            delete root->_leftChild;
-                            root->_leftChild = CC_NULL;
+                            // root->_leftChild->_data.~Comparable();
+                            // delete root->_leftChild;
+                            // root->_leftChild = CC_NULL;
                         } else {
                             root = root->_rightChild;
-                            root->_rightChild->_data.~Comparable();
-                            delete root->_rightChild;
-                            root->_rightChild = CC_NULL;
+                            // root->_rightChild->_data.~Comparable();
+                            // delete root->_rightChild;
+                            // root->_rightChild = CC_NULL;
                         }
                         delete temp;    //NOTICE: delete?
                         --_size;
@@ -460,10 +461,12 @@ namespace cclib
                         root = new BinaryNode<Comparable>(data, CC_NULL, CC_NULL);
                         ++_size;
                     }
-                    else if(data < root->_data)
+                    else if(data < root->_data) {
                         insert(data, root->_leftChild);
-                    else if(data > root->_data)
+                    }
+                    else if(data > root->_data) {
                         insert(data, root->_rightChild);
+                    }
                     else    //NOTICE: duplicate data, do nothing
                         result = false;
 

@@ -22,11 +22,11 @@ void foo() {
 }
 
 void foo1() {
-    std::map<int,char> example = {{1,'a'},{2,'b'}};
+    std::map<int,int> example = {{1,11},{2,12}};
     cout << "map size: " <<example.size() << endl;
-    example.insert(std::pair<int,char>(1, 'c'));
+    example.insert(std::pair<int,char>(3, 12));
     cout << "map size1: " <<example.size() << endl;
-    auto search = example.find(2);
+    auto search = example.find(3);
     if(search != example.end()) {
         std::cout << "Found " << search->first << " " << search->second << '\n';
     }
