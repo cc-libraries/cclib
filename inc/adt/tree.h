@@ -27,6 +27,7 @@
 #ifndef CCLIB_ADT_TREE_H
 #define CCLIB_ADT_TREE_H
 #include "./../../cclib-common/inc/base/common_define.h"
+#include <iostream>
 
 namespace cclib
 {
@@ -89,17 +90,18 @@ namespace cclib
         template<typename Comparable>
         class RedBlackTree {
             public:
-            RedBlackTree(): _size(0), _M_header(CC_NULL), _M_Nil(new RedBlackNode<Comparable>()) {
-                _M_header = _M_Nil;
-                _M_header->_leftChild = _M_Nil;
-                _M_header->_rightChild = _M_Nil;
+            RedBlackTree(): _size(0), _M_header(CC_NULL), _M_Nil(CC_NULL) {
+                this->_M_Nil = new RedBlackNode<Comparable>();
+                this->_M_header = _M_Nil;
+                this->_M_header->_parent = _M_Nil;
+                this->_M_header->_leftChild = _M_Nil;
+                this->_M_header->_rightChild = _M_Nil;
+                std::cout << "_M_Nil: " << this->_M_Nil << "_M_header: " << this->_M_header << std::endl;
             }
             // RedBlackTree(const Comparable& data) {}
             // RedBlackTree(const RedBlackTree& instance) {}
             ~RedBlackTree() {
-                if(_M_header) {
-                    remove(_M_header);
-                }
+                clear();
             }
 
             // const RedBlackTree& operator=(const RedBlackTree& instance) {}
@@ -110,18 +112,32 @@ namespace cclib
             cc_size_t size() {
                 return _size;
             }
-            bool clear() {}
+            bool clear() {
+                std::cout << "clear()" << std::endl;
+                while(CC_INIT != _size) {
+                    std::cout << "clear size: " << _size << std::endl;
+                    std::cout << "_M_header: " << this->_M_header << " _M_header->_data: " << this->_M_header->_data << std::endl;
+                    remove(this->_M_header);
+                    std::cout << "_M_Nil: " << _M_Nil << "_M_header: " << _M_header << std::endl;
+                    std::cout << "_size: " << _size << std::endl;
+                }
+                return true;
+            }
 
-            bool remove(const RedBlackNode<Comparable>*& node) {
-                RedBlackNode<Comparable>*& fixNode = remove(node->_data, this->_M_header);
+            bool remove(RedBlackNode<Comparable>*& node) {
+                std::cout << "remove node: " << node << std::endl;
+                RedBlackNode<Comparable>* fixNode = remove(node->_data, this->_M_header);
+                std::cout << "fixNode: " << fixNode << std::endl;
                 removeFixUp(fixNode);
             }
 
             bool insert(const Comparable& data) {
-                RedBlackNode<Comparable>*& node = new RedBlackNode<Comparable>(data, EN_Black, CC_NULL, _M_Nil, _M_Nil);
-                bool result = true;
+                RedBlackNode<Comparable>* node = new RedBlackNode<Comparable>(data, EN_Red, _M_Nil, _M_Nil, _M_Nil);
+                bool result = false;
                 if(_M_Nil == _M_header) {
                     _M_header = node;
+                    ++_size;
+                    std::cout << "_M_header->_parent: " << _M_header->_parent << std::endl;
                 } else {
                     result = insert(node, _M_header);
                 }
@@ -129,6 +145,8 @@ namespace cclib
                 if(result) {
                     insertFixUp(node);
                 }
+
+                return result;
             }
             private:
                 RedBlackNode<Comparable>* findMin(RedBlackNode<Comparable>*& root) const {
@@ -143,46 +161,90 @@ namespace cclib
                     return root;
                 }
 
+                RedBlackNode<Comparable>* findMax(RedBlackNode<Comparable>*& root) const {
+                    if(_M_Nil == root) {
+                        return _M_Nil;
+                    }
+
+                    while(root->_rightChild != _M_Nil) {
+                        root = root->_rightChild;
+                    }
+
+                    return root;
+                }
+
                 void deleteNode(RedBlackNode<Comparable>*& node) {
-                    node->_data.~Comparable();  //TODO: destruct?
+                    // node->_data.~Comparable();  //TODO: destruct?
                     delete node;
                     node = _M_Nil;
                 }
 
                 void removeFixUp(RedBlackNode<Comparable>*& node) {
+                    std::cout << "removeFixUp node: " << node << " color: " << node->_color << " node->_rightChild: " << node->_rightChild << std::endl;
+                    if(_M_Nil == node) {
+                        --_size;
+                        return;
+                    }
+
                     //NOTICE:_M_Nil == node->_leftChild
                     if(EN_Red == node->_color) {
-                        // deleteNode(node);
-                        // node->_data.~Comparable();  //TODO: destruct?
-                        node->_parent->_leftChild = _M_Nil;
+                        deleteNode(node);
+                        --_size;
                         return;
                     }
 
                     //EN_Black == node->_color
-                    if(_M_Nil == node->_rightChild) {
-                        rotateLeft(node->_parent);
-                        // node->_data.~Comparable();  //TODO: destruct?
-                        node->_parent->_leftChild = _M_Nil;
-                        // deleteNode(node);
-                    } else {    //EN_Red == node->_rightChild->_color
+                    if(_M_Nil != node->_rightChild) {   //EN_Red == node->_rightChild->_color
                         node->_data = node->_rightChild->_data;
-                        // node->_rightChild->_data.~Comparable();  //TODO: destruct?
-                        node->_rightChild = _M_Nil;
+                        removeFixUp(node->_rightChild);
                     }
+
+                    if(EN_Red == node->uncle()->_color) {    //EN_Black == node->_rightChild->color && EN_Black == node->_leftChild->color
+                        // deleteNode(node);
+                        RedBlackNode<Comparable>* temp = node;
+                        std::cout << "parent: " << node->_parent << " node->uncle: " << node->uncle() << std::endl;
+                        if(EN_Left == node->direction()) {
+                            rotateLeft(temp->_parent);
+                        } else {
+                            rotateRight(temp->uncle());
+                        }
+                        std::cout << "parent: " << temp->_parent << " node->uncle: " << temp->uncle() << std::endl;
+                    } else if(EN_Black == node->uncle()->_color) {
+                        if((_M_Nil == node->uncle()->_leftChild) && (_M_Nil == node->uncle()->_rightChild)) {
+
+                        }
+                    }
+                    // if(_M_Nil == node->_rightChild) {
+                    //     rotateLeft(node->_parent);
+                    //     // node->_data.~Comparable();  //TODO: destruct?
+                    //     node->_parent->_leftChild = _M_Nil;
+                    //     // deleteNode(node);
+                    // } else {    //EN_Red == node->_rightChild->_color
+                    //     node->_data = node->_rightChild->_data;
+                    //     // node->_rightChild->_data.~Comparable();  //TODO: destruct?
+                    //     node->_rightChild = _M_Nil;
+                    // }
                 }
 
-                RedBlackNode<Comparable>*& remove(const Comparable& data, RedBlackNode<Comparable>*& root) {
+                RedBlackNode<Comparable>* remove(const Comparable& data, RedBlackNode<Comparable>*& root) {
+                    std::cout << "remove data: " << data << " root: " << root << " root->_data: " << root->_data << std::endl;
                     if(_M_Nil == root) {   //not found
                         return _M_Nil;
                     }
+                    std::cout << "data: " << data << std::endl;
 
                     if(data < root->_data) {
                         return remove(data, root->_leftChild);
                     } else if(data > root->_data) {
                         return remove(data, root->_rightChild);
-                    } else if(data = root->_data){
+                    } else if(data == root->_data) {
                         // root->_data.~Comparable();  //TODO: destruct?
-                         RedBlackNode<Comparable>*& result = findMin(root->_rightChild);
+                        std::cout << "remove root->_rightChild: " << root->_rightChild << std::endl;
+                        RedBlackNode<Comparable>* result = findMin(root->_rightChild);
+                        if(_M_Nil == result) {
+                            result == findMax(root->_leftChild);
+                        }
+                        std::cout << "result data: " << result->_data << " root data: " << root->_data << " result: " << result << std::endl;
                         root->_data = result->_data;    //NOTICE: not delete root->_rightChild
                         return result;
                     } else {
@@ -190,7 +252,9 @@ namespace cclib
                     }
                 }
 
-                void insertFixUp(const RedBlackNode<Comparable>*& node) {
+                void insertFixUp(RedBlackNode<Comparable>* node) {
+                    std::cout << "insertFixUp: " << node->_data << std::endl;
+                    std::cout << "insertFixUp1: " << node->_parent << std::endl;
                     if(EN_Red == node->_parent->_color) {
                         RedBlackNode<Comparable>* uncle = node->uncle();
                         if(_M_Nil != uncle) {   //uncle->_color == EN_Red
@@ -198,6 +262,7 @@ namespace cclib
                             uncle->_color = EN_Black;
                             node->grandParent()->_color = EN_Red;
                             insertFixUp(node->grandParent());
+                            std::cout << "insertFixUp2" << std::endl;
                         } else {
                              if(EN_Right == node->direction() && EN_Left == node->_parent->direction()) {
                                  rotateLeft(node->_parent);
@@ -214,26 +279,27 @@ namespace cclib
                     }
                 }
 
-                bool insert(const RedBlackNode<Comparable>*& node, RedBlackNode<Comparable>*& root) {
+                bool insert(RedBlackNode<Comparable>*& node, RedBlackNode<Comparable>*& root) {
                     bool result = true;
 
+                    std::cout << "insert node->_data: " << node->_data << " root->_data: " << root->_data << std::endl;
+                    std::cout << "node: " << node << " root: " << root << " _M_Nil: " << _M_Nil << std::endl;
                     if(_M_Nil == root) {
-                        node->_color = EN_Red;
+                        std::cout << "_size: " << _size << std::endl;
                         node->_parent = root->_parent;
                         root = node;
                         ++_size;
-                    }
-                    else if(node->_data < root->_data)
-                        insert(node->_data, root->_leftChild);
-                    else if(node->_data > root->_data)
-                        insert(node->_data, root->_rightChild);
-                    else    //NOTICE: duplicate data, do nothing
+                    } else if(node->_data < root->_data) {
+                        insert(node, root->_leftChild);
+                    } else if(node->_data > root->_data) {
+                        insert(node, root->_rightChild);
+                    } else    //NOTICE: duplicate data, do nothing
                         result = false;
 
                     return result;
                 }
 
-                void rotateRight(RedBlackNode<Comparable>*& y) {
+                void rotateRight(RedBlackNode<Comparable>* y) {
                     RedBlackNode<Comparable>* x = y->_leftChild;
                     y->_leftChild = x->_rightChild; //1. rotate x child
 
@@ -257,7 +323,7 @@ namespace cclib
                     y->_parent = x;
                 }
 
-                void rotateLeft(RedBlackNode<Comparable>*& x) {
+                void rotateLeft(RedBlackNode<Comparable>* x) {
                     RedBlackNode<Comparable>* y = x->_leftChild;
                     x->_rightChild = y->_leftChild; //1. rotate y child
 
@@ -282,191 +348,191 @@ namespace cclib
 
             private:
                 cc_size_t _size;
-                RedBlackNode<Comparable>* _M_header, _M_Nil;
+                RedBlackNode<Comparable> *_M_header, *_M_Nil;
         };
 
-        template<typename Comparable>
-        struct BinaryNode {
-            Comparable _data;
-            BinaryNode* _leftChild;
-            BinaryNode* _rightChild;
-            BinaryNode(const Comparable& data, BinaryNode* leftChild, BinaryNode* rightChild)
-            : _data(data), _leftChild(leftChild), _rightChild(rightChild) {}
-        };
+        // template<typename Comparable>
+        // struct BinaryNode {
+        //     Comparable _data;
+        //     BinaryNode* _leftChild;
+        //     BinaryNode* _rightChild;
+        //     BinaryNode(const Comparable& data, BinaryNode* leftChild, BinaryNode* rightChild)
+        //     : _data(data), _leftChild(leftChild), _rightChild(rightChild) {}
+        // };
 
-        template<typename Comparable>
-        class BinarySearchTree {
-            public:
-                BinarySearchTree(): _size(0), _M_node(CC_NULL) {}
-                // BinarySearchTree(const BinarySearchTree& instance) {}
-                ~BinarySearchTree() {
-                    clear();
-                }
+        // template<typename Comparable>
+        // class BinarySearchTree {
+        //     public:
+        //         BinarySearchTree(): _size(0), _M_node(CC_NULL) {}
+        //         // BinarySearchTree(const BinarySearchTree& instance) {}
+        //         ~BinarySearchTree() {
+        //             clear();
+        //         }
 
-            public:
-                bool contains(const Comparable& data) {
-                    return preOrderTraversalHandle(data, this->_M_node);
-                }
+        //     public:
+        //         bool contains(const Comparable& data) {
+        //             return preOrderTraversalHandle(data, this->_M_node);
+        //         }
 
-                BinaryNode<Comparable>* begin() {
-                    return this->_M_node;
-                }
+        //         BinaryNode<Comparable>* begin() {
+        //             return this->_M_node;
+        //         }
 
-                bool insert(const Comparable& data) {
-                    bool result = insert(data, this->_M_node);
-                    return result;
-                }
+        //         bool insert(const Comparable& data) {
+        //             bool result = insert(data, this->_M_node);
+        //             return result;
+        //         }
 
-                bool remove(const Comparable& data) {
-                    remove(data, this->_M_node);
-                }
+        //         bool remove(const Comparable& data) {
+        //             remove(data, this->_M_node);
+        //         }
 
-                Comparable find(const Comparable& key) {  //TODO: change to callback
-                    return find(key, this->_M_node);
-                }
+        //         Comparable find(const Comparable& key) {  //TODO: change to callback
+        //             return find(key, this->_M_node);
+        //         }
 
-                cc_size_t size() {
-                    return _size;
-                }
+        //         cc_size_t size() {
+        //             return _size;
+        //         }
 
-                bool empty() const {
-                    return CC_INIT == _size;
-                }
+        //         bool empty() const {
+        //             return CC_INIT == _size;
+        //         }
 
-                bool clear() {
-                    clear(this->_M_node);
-                }
+        //         bool clear() {
+        //             clear(this->_M_node);
+        //         }
 
-            private:
-                bool clear(BinaryNode<Comparable>*& root) {
-                    if(CC_NULL == root) {
-                        return true;
-                    }
+        //     private:
+        //         bool clear(BinaryNode<Comparable>*& root) {
+        //             if(CC_NULL == root) {
+        //                 return true;
+        //             }
 
-                    remove(root->_data, root);
-                    return clear(root);
-                }
+        //             remove(root->_data, root);
+        //             return clear(root);
+        //         }
 
-                bool remove(const Comparable& data, BinaryNode<Comparable>*& root) {
-                    if(CC_NULL == root) {   //not found
-                        return false;
-                    }
+        //         bool remove(const Comparable& data, BinaryNode<Comparable>*& root) {
+        //             if(CC_NULL == root) {   //not found
+        //                 return false;
+        //             }
 
-                    if(data < root->_data) {
-                        remove(data, root->_leftChild);
-                    } else if(data > root->_data) {
-                        remove(data, root->_rightChild);
-                    } else if(data == root->_data && root->_leftChild != CC_NULL && root->_rightChild != CC_NULL) {
-                        // root->_data.~Comparable();  //NOTICE: destruct?
-                        root->_data = findMin(root->_rightChild)->_data;
-                        remove(root->_data, root->_rightChild);
-                    } else {    //data == root->_data && (root->_leftChild != CC_NULL || root->_rightChild != CC_NULL)
-                        BinaryNode<Comparable>* temp = root;
-                        root = root->_leftChild != CC_NULL ? root->_leftChild : root->_rightChild;
-                        delete temp;    //NOTICE: delete?
-                        --_size;
-                        return true;
-                    }
-                }
+        //             if(data < root->_data) {
+        //                 remove(data, root->_leftChild);
+        //             } else if(data > root->_data) {
+        //                 remove(data, root->_rightChild);
+        //             } else if(data == root->_data && root->_leftChild != CC_NULL && root->_rightChild != CC_NULL) {
+        //                 // root->_data.~Comparable();  //NOTICE: destruct?
+        //                 root->_data = findMin(root->_rightChild)->_data;
+        //                 remove(root->_data, root->_rightChild);
+        //             } else {    //data == root->_data && (root->_leftChild != CC_NULL || root->_rightChild != CC_NULL)
+        //                 BinaryNode<Comparable>* temp = root;
+        //                 root = root->_leftChild != CC_NULL ? root->_leftChild : root->_rightChild;
+        //                 delete temp;    //NOTICE: delete?
+        //                 --_size;
+        //                 return true;
+        //             }
+        //         }
 
-                BinaryNode<Comparable>* findMin(BinaryNode<Comparable>*& root) const {
-                    IS_POINT_NULL_POINT(root);
+        //         BinaryNode<Comparable>* findMin(BinaryNode<Comparable>*& root) const {
+        //             IS_POINT_NULL_POINT(root);
 
-                    while(root->_leftChild != CC_NULL) {
-                        root = root->_leftChild;
-                    }
+        //             while(root->_leftChild != CC_NULL) {
+        //                 root = root->_leftChild;
+        //             }
 
-                    return root;
-                }
+        //             return root;
+        //         }
 
-                BinaryNode<Comparable>* findMax(BinaryNode<Comparable>*& root) const {
-                    IS_POINT_NULL_POINT(root);
+        //         BinaryNode<Comparable>* findMax(BinaryNode<Comparable>*& root) const {
+        //             IS_POINT_NULL_POINT(root);
 
-                    while(root->_rightChild != CC_NULL) {
-                        root = root->_rightChild;
-                    }
+        //             while(root->_rightChild != CC_NULL) {
+        //                 root = root->_rightChild;
+        //             }
 
-                    return root;
-                }
+        //             return root;
+        //         }
 
-                Comparable find(const Comparable& key, BinaryNode<Comparable>*& root) {
-                    IS_POINT_NULL_POINT(root);
+        //         Comparable find(const Comparable& key, BinaryNode<Comparable>*& root) {
+        //             IS_POINT_NULL_POINT(root);
 
-                    if(key == root->_data) {
-                        return root->_data;
-                    }
-                    if(CC_NULL != root->_leftChild) {
-                        return find(key, root->_leftChild);
-                    }
-                    if(CC_NULL != root->_rightChild) {
-                        return find(key, root->_rightChild);
-                    }
+        //             if(key == root->_data) {
+        //                 return root->_data;
+        //             }
+        //             if(CC_NULL != root->_leftChild) {
+        //                 return find(key, root->_leftChild);
+        //             }
+        //             if(CC_NULL != root->_rightChild) {
+        //                 return find(key, root->_rightChild);
+        //             }
 
-                    return CC_NULL;
-                }
+        //             return CC_NULL;
+        //         }
 
-                bool preOrderTraversalHandle(const Comparable& data, const BinaryNode<Comparable>* root) {
-                    IS_POINT_NULL_POINT(root);
+        //         bool preOrderTraversalHandle(const Comparable& data, const BinaryNode<Comparable>* root) {
+        //             IS_POINT_NULL_POINT(root);
 
-                    if(data == root->_data)
-                        return true;
-                    if(CC_NULL != root->_leftChild)
-                        return preOrderTraversalHandle(data, root->_leftChild);
-                    if(CC_NULL != root->_rightChild)
-                        return preOrderTraversalHandle(data, root->_rightChild);
+        //             if(data == root->_data)
+        //                 return true;
+        //             if(CC_NULL != root->_leftChild)
+        //                 return preOrderTraversalHandle(data, root->_leftChild);
+        //             if(CC_NULL != root->_rightChild)
+        //                 return preOrderTraversalHandle(data, root->_rightChild);
 
-                    return false;
-                }
+        //             return false;
+        //         }
 
-                bool inOrderTraversalHandle(const Comparable& data, const BinaryNode<Comparable>* root) {
-                    IS_POINT_NULL_POINT(root);
+        //         bool inOrderTraversalHandle(const Comparable& data, const BinaryNode<Comparable>* root) {
+        //             IS_POINT_NULL_POINT(root);
 
-                    if(CC_NULL != root->_leftChild)
-                        return inOrderTraversalHandle(data, root->_leftChild);
-                    if(data == root->_data)
-                        return true;
-                    if(CC_NULL != root->_rightChild)
-                        return inOrderTraversalHandle(data, root->_rightChild);
+        //             if(CC_NULL != root->_leftChild)
+        //                 return inOrderTraversalHandle(data, root->_leftChild);
+        //             if(data == root->_data)
+        //                 return true;
+        //             if(CC_NULL != root->_rightChild)
+        //                 return inOrderTraversalHandle(data, root->_rightChild);
 
-                    return false;
-                }
+        //             return false;
+        //         }
 
-                bool postOrderTraversalHandle(const Comparable& data, const BinaryNode<Comparable>* root) {
-                    IS_POINT_NULL_POINT(root);
+        //         bool postOrderTraversalHandle(const Comparable& data, const BinaryNode<Comparable>* root) {
+        //             IS_POINT_NULL_POINT(root);
 
-                    if(CC_NULL != root->_leftChild)
-                        return postOrderTraversalHandle(data, root->_leftChild);
-                    if(CC_NULL != root->_rightChild)
-                        return postOrderTraversalHandle(data, root->_rightChild);
-                    if(data == root->_data)
-                        return true;
+        //             if(CC_NULL != root->_leftChild)
+        //                 return postOrderTraversalHandle(data, root->_leftChild);
+        //             if(CC_NULL != root->_rightChild)
+        //                 return postOrderTraversalHandle(data, root->_rightChild);
+        //             if(data == root->_data)
+        //                 return true;
 
-                    return false;
-                }
+        //             return false;
+        //         }
 
-                bool insert(const Comparable& data, BinaryNode<Comparable>*& root) {
-                    bool result = true;
+        //         bool insert(const Comparable& data, BinaryNode<Comparable>*& root) {
+        //             bool result = true;
 
-                    if(CC_NULL == root) {
-                        root = new BinaryNode<Comparable>(data, CC_NULL, CC_NULL);
-                        ++_size;
-                    }
-                    else if(data < root->_data) {
-                        insert(data, root->_leftChild);
-                    }
-                    else if(data > root->_data) {
-                        insert(data, root->_rightChild);
-                    }
-                    else    //NOTICE: duplicate data, do nothing
-                        result = false;
+        //             if(CC_NULL == root) {
+        //                 root = new BinaryNode<Comparable>(data, CC_NULL, CC_NULL);
+        //                 ++_size;
+        //             }
+        //             else if(data < root->_data) {
+        //                 insert(data, root->_leftChild);
+        //             }
+        //             else if(data > root->_data) {
+        //                 insert(data, root->_rightChild);
+        //             }
+        //             else    //NOTICE: duplicate data, do nothing
+        //                 result = false;
 
-                    return result;
-                }
+        //             return result;
+        //         }
 
-            private:
-                cc_size_t _size;
-                BinaryNode<Comparable>* _M_node;
-        };
+        //     private:
+        //         cc_size_t _size;
+        //         BinaryNode<Comparable>* _M_node;
+        // };
     } // namespace adt
 } // namespace cclib
 
