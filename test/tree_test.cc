@@ -61,8 +61,17 @@ void redBlackTreeTest() {
     RedBlackTree<int> cc;
     cc.insert(11);
     cc.insert(12);
-    // cc.insert(13);
+    cc.insert(13);
     cout << "size: " << cc.size() << endl;
+
+    cc.remove(14);
+    cout << "size: " << cc.size() << endl;
+
+    cc.remove(12);
+    cout << "size: " << cc.size() << endl;
+
+    cc.clear();
+    cout << "size1: " << cc.size() << endl;
 }
 
 int main(int argc, char const *argv[])

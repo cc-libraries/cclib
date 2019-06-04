@@ -31,13 +31,15 @@ void foo() {
 }
 
 void foo1() {
-    std::map<int,Demo*> example;
+    std::map<int,int> example;
     // std::map<int, char> example;
     // Demo* a1 = new Demo(31, 32);
     cout << "map size: " <<example.size() << endl;
-    example.insert(std::pair<int,Demo*>(3, new Demo(31, 32)));
+    example.insert(std::pair<int,int>(11, 21));
+    example.insert(std::pair<int,int>(12, 22));
+    example.insert(std::pair<int,int>(13, 23));
     cout << "map size1: " <<example.size() << endl;
-    auto search = example.find(3);
+    auto search = example.find(13);
     if(search != example.end()) {
         std::cout << "Found " << search->first << " " << search->second << '\n';
         // search->second;
@@ -48,7 +50,7 @@ void foo1() {
         std::cout << "Not found\n";
     }
 
-    auto search1 = example.find('a');
+    auto search1 = example.find(12);
     if(search1 != example.end()) {
         std::cout << "Found1 " << search1->first << " " << search1->second << '\n';
     }
@@ -56,7 +58,7 @@ void foo1() {
         std::cout << "Not found\n";
     }
 
-    example.erase(1);
+    example.erase(11);
 
     cout << "map size2: " <<example.size() << endl;
 }
