@@ -31,7 +31,7 @@ void foo() {
 }
 
 void foo1() {
-    std::map<int,int> example;
+    std::map<int,int> example = {std::pair<int,int>(14, 24)};
     // std::map<int, char> example;
     // Demo* a1 = new Demo(31, 32);
     cout << "map size: " <<example.size() << endl;
