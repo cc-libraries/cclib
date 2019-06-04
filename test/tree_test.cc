@@ -65,9 +65,11 @@ void redBlackTreeTest() {
     cc.insert(13);
     cout << "size: " << cc.size() << endl;
 
+    cout << "cc remove 14" << endl;
     cc.remove(14);
     cout << "size1: " << cc.size() << endl;
 
+    cout << "cc remove 12" << endl;
     cc.remove(12);
     cout << "size2: " << cc.size() << endl;
     cc.remove(14);

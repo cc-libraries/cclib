@@ -123,8 +123,8 @@ namespace cclib
                 return true;
             }
 
-            void remove(const Comparable data) {
-                std::cout << "remove data: " << this->_M_header->_data << std::endl;
+            void remove(const Comparable& data) {
+                std::cout << "remove root data: " << this->_M_header->_data << std::endl;
                 remove(data, this->_M_header);
             }
 
@@ -163,12 +163,13 @@ namespace cclib
             bool insert(const Comparable& data) {
                 RedBlackNode<Comparable>* node = new RedBlackNode<Comparable>(data, EN_Red, _M_Nil, _M_Nil, _M_Nil);
                 bool result = false;
-                if(_M_Nil == _M_header) {
-                    _M_header = node;
-                    ++_size;
-                } else {
-                    result = insert(node, _M_header);
-                }
+                // if(_M_Nil == _M_header) {
+                //     node->_color = EN_Black;
+                //     _M_header = node;
+                //     ++_size;
+                // } else {
+                result = insert(node, _M_header);
+                // }
 
                 if(result) {
                     insertFixUp(node);
@@ -304,44 +305,68 @@ namespace cclib
                 }
 
                 void insertFixUp(RedBlackNode<Comparable>* node) {
-                    if(EN_Red == node->_parent->_color) {
-                        RedBlackNode<Comparable>* uncle = node->uncle();
-                        if(_M_Nil != uncle) {   //uncle->_color == EN_Red
-                            node->_parent->_color = EN_Black;
-                            uncle->_color = EN_Black;
-                            node->grandParent()->_color = EN_Red;
-                            insertFixUp(node->grandParent());
-                        } else {
-                             if(EN_Right == node->direction() && EN_Left == node->_parent->direction()) {
-                                 rotateLeft(node->_parent);
-                             } else if(EN_Left == node->direction() && EN_Right == node->_parent->direction()) {
-                                 rotateRight(node->_parent);
-                             }
+                    while(EN_Red == node->_parent->_color) {
+                        if(EN_Left == node->_parent->direction()) {
+                            RedBlackNode<Comparable>* uncle = node->grandParent()->_rightChild;
+                            if(EN_Red == uncle->_color) {
+                                node->_parent->_color = EN_Black;
+                                uncle->_color = EN_Black;
+                                node->grandParent()->_color = EN_Red;
+                                node = node->grandParent();
+                            } else if(node == node->_parent->_rightChild) {
+                                node = node->_parent;
+                                rotateLeft(node);
+                            } else{
+                                node->_parent->_color = EN_Black;
+                                node->grandParent()->_color = EN_Red;
+                                rotateRight(node->grandParent());
+                            }
 
-                             if(node == node->_parent->_leftChild && node->_parent == node->grandParent()->_leftChild) {
-                                 rotateRight(node->grandParent());
-                             } else {
-                                 rotateLeft(node->grandParent());
-                             }
+                        } else {
+                            RedBlackNode<Comparable>* uncle = node->grandParent()->_leftChild;
+                            if(EN_Red == uncle->_color) {
+                                node->_parent->_color = EN_Black;
+                                uncle->_color = EN_Black;
+                                node->grandParent()->_color = EN_Red;
+                                node = node->grandParent();
+                            } else if(node == node->_parent->_leftChild) {
+                                node = node->_parent;
+                                rotateRight(node);
+                            } else {
+                                node->_parent->_color = EN_Black;
+                                node->grandParent()->_color = EN_Red;
+                                rotateLeft(node->grandParent());
+                            }
                         }
+                        _M_header->_color = EN_Black;
                     }
                 }
 
                 bool insert(RedBlackNode<Comparable>*& node, RedBlackNode<Comparable>*& root) {
-                    bool result = true;
+                    std::cout << "insert1: data" << node->_data << std::endl;
+                    RedBlackNode<Comparable>* insertNode = _M_Nil;
+                    RedBlackNode<Comparable>* rootNode = root;
 
-                    if(_M_Nil == root) {
-                        node->_parent = root->_parent;
-                        root = node;
-                        ++_size;
-                    } else if(node->_data < root->_data) {
-                        insert(node, root->_leftChild);
-                    } else if(node->_data > root->_data) {
-                        insert(node, root->_rightChild);
-                    } else    //NOTICE: duplicate data, do nothing
-                        result = false;
+                    while(rootNode != _M_Nil) {
+                        insertNode = rootNode;
+                        rootNode = node->_data < rootNode->_data ? rootNode->_leftChild : rootNode->_leftChild;
+                    }
 
-                    return result;
+                    node->_parent = insertNode;
+                    ++_size;
+                    if(insertNode == _M_Nil) {
+                        _M_header = node;
+                    } else if(node->_data < insertNode->_data) {
+
+                        insertNode->_leftChild = node;
+                    } else if(node->_data > insertNode->_data) {
+                        insertNode->_rightChild = node;
+                    } else {
+                        --_size;
+                        return false;
+                    }
+
+                    return true;
                 }
 
                 void rotateRight(RedBlackNode<Comparable>* y) {
