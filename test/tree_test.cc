@@ -65,9 +65,7 @@ void redBlackTreeTest() {
     cc.insert(14);
     cout << "size: " << cc.size() << endl;
     cclib::common::util::printTreeValue(cc);
-    // cc.printHeader();
     cc.remove(14);
-    // cc.printHeader();
     cout << "size1: " << cc.size() << endl;
     cclib::common::util::printTreeValue(cc);
 
@@ -92,20 +90,21 @@ void redBlackTreePairTest() {
     cc.insert(Pair<int, int>(14, 24));
     cout << "size: " << cc.size() << endl;
     cclib::common::util::printTreeValue(cc);
+    cc.remove(14);
+    cout << "size1: " << cc.size() << endl;
+    cclib::common::util::printTreeValue(cc);
 
-    // cc.remove(14);
-    // cout << "size: " << cc.size() << endl;
+    cc.remove(12);
+    cout << "size2: " << cc.size() << endl;
+    cclib::common::util::printTreeValue(cc);
 
-    // cc.remove(12);
-    // cout << "size: " << cc.size() << endl;
+    RedBlackNode<cclib::adt::Pair<int, int>>* a = cc.find(11);
+    cout << "a->_data: " << cclib::adt::Pair<int, int>::to_string(a->_data) << endl;
+    cclib::common::util::printTreeValue(cc);
 
-    // cout << "cc: " << &cc <<endl;
-    // RedBlackTree<int> aa = cc;
-    // cout << "aa.size: " << aa.size() << endl;
-    // cout << "aa: " << &aa << endl;
-
-    // cc.clear();
-    // cout << "size1: " << cc.size() << endl;
+    cc.clear();
+    cout << "size3: " << cc.size() << endl;
+    cclib::common::util::printTreeValue(cc);
 }
 
 int main(int argc, char const *argv[])

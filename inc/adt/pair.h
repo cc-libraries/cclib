@@ -27,9 +27,7 @@ namespace cclib
             Pair() {}
             Pair(const _Key& key, const _Value& value): _key(key), _value(value) {}
             Pair(const _Key& key): _key(key), _value(CC_NULL) {}
-            ~Pair() {
-                std::cout << "~Pair() key:" << this->_key <<std::endl;
-            }
+            ~Pair() {}
 
             Pair& operator=(const Pair& instance) {
                 this->_key = instance._key;
@@ -52,7 +50,11 @@ namespace cclib
                 return this->_key > instance._key;
             }
 
-            static std::string to_string(Pair& instance) {
+            // std::string operator<<() {}  //TODO:
+            // std::string operator>>() {}  //TODO:
+
+            //TODO: remove std::string
+            static std::string to_string(const Pair& instance) {
                 return "key:" + std::to_string(instance._key) + "-" + "value:" + std::to_string(instance._value);
             }
         };
