@@ -14,7 +14,7 @@ void binarySearchTreeTest() {
     cc.insert(12);
     cc.insert(13);
     cout << "size: " << cc.size() << endl;
-    cclib::common::util::printTreeValue(cc);
+    cclib::common::util::printBinarySearchTreeValue(cc);
 
     int a = cc.find(12);
     cout << "a: " << a << endl;
@@ -24,11 +24,11 @@ void binarySearchTreeTest() {
 
     cc.remove(12);
     cout << "size: " << cc.size() << endl;
-    cclib::common::util::printTreeValue(cc);
+    cclib::common::util::printBinarySearchTreeValue(cc);
 
     cc.clear();
     cout << "size: " << cc.size() << endl;
-    cclib::common::util::printTreeValue(cc);
+    cclib::common::util::printBinarySearchTreeValue(cc);
 }
 
 void binarySearchTreeTest1() {
@@ -38,7 +38,7 @@ void binarySearchTreeTest1() {
     cc.insert(Pair<int, int>(13, 23));
     // cc.insert(Pair<int, int>(15, 25));
     cout << "size: " << cc.size() << endl;
-    cclib::common::util::printTreeValue(cc);
+    cclib::common::util::printBinarySearchTreeValue(cc);
 
     Pair<int, int> a = cc.find(12);
     cout << "a1: " << cclib::adt::Pair<int,int>::to_string(a) << endl;
@@ -48,12 +48,12 @@ void binarySearchTreeTest1() {
 
     cc.remove(12);
     cout << "size: " << cc.size() << endl;
-    cclib::common::util::printTreeValue(cc);
+    cclib::common::util::printBinarySearchTreeValue(cc);
 
     cout << "clear " <<endl;
     cc.clear();
     cout << "size: " << cc.size() << endl;
-    cclib::common::util::printTreeValue(cc);
+    cclib::common::util::printBinarySearchTreeValue(cc);
     cout << "end" << endl;
 }
 
@@ -62,28 +62,27 @@ void redBlackTreeTest() {
     cc.insert(11);
     cc.insert(12);
     cc.insert(13);
-    cc.insert(13);
     cout << "size: " << cc.size() << endl;
-
-    cout << "cc remove 14" << endl;
+    // cclib::common::util::printTreeValue(cc);
     cc.remove(14);
     cout << "size1: " << cc.size() << endl;
-
-    cout << "cc remove 12" << endl;
-    cc.remove(12);
+    // cclib::common::util::printTreeValue(cc);
+    cc.insert(13);
     cout << "size2: " << cc.size() << endl;
-    cc.remove(14);
+    cclib::common::util::printTreeValue(cc);
 
-    cout << "cc: " << &cc <<endl;
-    RedBlackTree<int> aa = cc;
-    cout << "aa.size: " << aa.size() << endl;
-    cout << "aa: " << &aa << endl;
+    // cc.remove(12);
+    // cout << "size2: " << cc.size() << endl;
+    // cc.remove(14);
 
-    RedBlackNode<int>* a = cc.find(11);
-    cout << "a->_data: " << a->_data << endl;
+    // RedBlackTree<int> aa = cc;
+    // cout << "aa.size: " << aa.size() << endl;
 
-    cc.clear();
-    cout << "size3: " << cc.size() << endl;
+    // RedBlackNode<int>* a = cc.find(11);
+    // cout << "a->_data: " << a->_data << endl;
+
+    // cc.clear();
+    // cout << "size3: " << cc.size() << endl;
 }
 
 void redBlackTreePairTest() {
