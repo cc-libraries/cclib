@@ -221,8 +221,12 @@ namespace cclib
                 }
 
                 void remove(const Comparable& data) {
-                    // std::cout << "_M_header: " << this->_M_header << " remove root data: " << this->_M_header->_data << std::endl;
+                    std::cout << "_M_header: " << this->_M_header << " remove root data: " << this->_M_header->_data << std::endl;
                     remove(data, this->_M_header);
+                }
+
+                void printHeader() {
+                    std::cout << "_M_header: " << _M_header << std::endl;
                 }
 
                 void remove(RedBlackNode<Comparable>*& node) {
@@ -278,9 +282,9 @@ namespace cclib
 
             private:
                 RedBlackNode<Comparable>* find(const Comparable& data, RedBlackNode<Comparable>*& root) {
-                    // std::cout << "call find" << " data: " << data << " root->_data: " << root->_data << std::endl;
+                    std::cout << "call find" << " data: " << data << " root->_data: " << root->_data << std::endl;
                     if(_M_Nil == root) {   //not found
-                        // std::cout << "_M_nil aaa " << std::endl;
+                        std::cout << "_M_nil aaa " << std::endl;
                         return _M_Nil;
                     }
 
@@ -294,7 +298,7 @@ namespace cclib
                     }
                 }
 
-                RedBlackNode<Comparable>* findMin(RedBlackNode<Comparable>*& root) const {
+                RedBlackNode<Comparable>* findMin(RedBlackNode<Comparable>* root) const {
                     if(_M_Nil == root) {
                         return _M_Nil;
                     }
@@ -306,7 +310,7 @@ namespace cclib
                     return root;
                 }
 
-                RedBlackNode<Comparable>* findMax(RedBlackNode<Comparable>*& root) const {
+                RedBlackNode<Comparable>* findMax(RedBlackNode<Comparable>* root) const {
                     if(_M_Nil == root) {
                         return _M_Nil;
                     }
@@ -319,7 +323,9 @@ namespace cclib
                 }
 
                 void remove(const Comparable& data, RedBlackNode<Comparable>*& root) {
+                    std::cout << "root pointer: " << root << " data: " << root->_data << std::endl;
                     RedBlackNode<Comparable>* node = find(data, root);
+                    std::cout << "remove data: " << node->_data << std::endl;
 
                     if(_M_Nil == node) return;
 
@@ -441,8 +447,8 @@ namespace cclib
                             }
                         }
                     }
-                    // std::cout << "_M_Nil: " << _M_Nil << std::endl;
-                    // std::cout << "_M_header: " << _M_header << std::endl;
+                    std::cout << "_M_Nil: " << _M_Nil << std::endl;
+                    std::cout << "_M_header: " << _M_header << std::endl;
                     _M_header->_color = EN_Black;
                 }
 

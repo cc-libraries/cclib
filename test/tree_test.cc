@@ -62,36 +62,36 @@ void redBlackTreeTest() {
     cc.insert(11);
     cc.insert(12);
     cc.insert(13);
+    cc.insert(14);
     cout << "size: " << cc.size() << endl;
-    // cclib::common::util::printTreeValue(cc);
+    cclib::common::util::printTreeValue(cc);
+    // cc.printHeader();
     cc.remove(14);
+    // cc.printHeader();
     cout << "size1: " << cc.size() << endl;
-    // cclib::common::util::printTreeValue(cc);
-    cc.insert(13);
+    cclib::common::util::printTreeValue(cc);
+
+    cc.remove(12);
     cout << "size2: " << cc.size() << endl;
     cclib::common::util::printTreeValue(cc);
 
-    // cc.remove(12);
-    // cout << "size2: " << cc.size() << endl;
-    // cc.remove(14);
+    RedBlackNode<int>* a = cc.find(11);
+    cout << "a->_data: " << a->_data << endl;
+    cclib::common::util::printTreeValue(cc);
 
-    // RedBlackTree<int> aa = cc;
-    // cout << "aa.size: " << aa.size() << endl;
-
-    // RedBlackNode<int>* a = cc.find(11);
-    // cout << "a->_data: " << a->_data << endl;
-
-    // cc.clear();
-    // cout << "size3: " << cc.size() << endl;
+    cc.clear();
+    cout << "size3: " << cc.size() << endl;
+    cclib::common::util::printTreeValue(cc);
 }
 
 void redBlackTreePairTest() {
-    // RedBlackTree<cclib::adt::Pair<int, int>> cc;
-    // cc.insert(Pair<int, int>(11, 21));
-    // cc.insert(Pair<int, int>(12, 22));
-    // cc.insert(Pair<int, int>(13, 23));
-    // cc.insert(Pair<int, int>(14, 24));
-    // cout << "size: " << cc.size() << endl;
+    RedBlackTree<cclib::adt::Pair<int, int>> cc;
+    cc.insert(Pair<int, int>(11, 21));
+    cc.insert(Pair<int, int>(12, 22));
+    cc.insert(Pair<int, int>(13, 23));
+    cc.insert(Pair<int, int>(14, 24));
+    cout << "size: " << cc.size() << endl;
+    cclib::common::util::printTreeValue(cc);
 
     // cc.remove(14);
     // cout << "size: " << cc.size() << endl;
@@ -112,6 +112,6 @@ int main(int argc, char const *argv[])
 {
     /* code */
     // binarySearchTreeTest();
-    redBlackTreeTest();
+    redBlackTreePairTest();
     return 0;
 }
