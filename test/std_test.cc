@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <vector>
 
 using namespace std;
 
@@ -63,9 +64,21 @@ void foo1() {
     cout << "map size2: " <<example.size() << endl;
 }
 
+void foo2() {
+    vector<int> aa;
+    aa.push_back(11);
+    aa.push_back(12);
+    aa.push_back(13);
+
+    vector<int>::iterator itr = aa.begin();
+    while(itr != aa.end()) {
+        std::cout << "itr: " << *(itr++) << std::endl;
+    }
+}
+
 int main(int argc, char const *argv[])
 {
     /* code */
-    foo1();
+    foo2();
     return 0;
 }
