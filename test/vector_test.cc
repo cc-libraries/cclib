@@ -38,6 +38,11 @@ void vectorTest() {
     cc.pop_back();
     cclib::common::util::printVectorValue(cc);
 
+    Vector<int>::Iterator dd = cc.begin();
+    for(int i = 0; i < cc.size() + 1; i++) {
+        cout << "aa: " << *(dd++) << endl;
+    }
+
     // cc.pop_back();
     // cclib::common::util::printVectorValue(cc);
     // cout << "hello: " << cc.empty() << endl;
