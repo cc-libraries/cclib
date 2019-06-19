@@ -76,9 +76,15 @@ void foo2() {
     }
 }
 
+void foo3() {
+    char aa[10] = {0};
+    int a = &aa[5] - &aa[1];
+    cout << a << endl;
+}
+
 int main(int argc, char const *argv[])
 {
     /* code */
-    foo2();
+    foo3();
     return 0;
 }

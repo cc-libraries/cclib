@@ -14,6 +14,11 @@ void stack_test() {
         cout << "aa[" << i << "]: " << aa.top() << endl;
         aa.pop();
     }
+
+    cout << "top: " << aa.top() << endl;
+
+    Stack<int> bb;
+    cout << "bb top: " << bb.top() << endl;
 }
 
 int main(int argc, char const *argv[])

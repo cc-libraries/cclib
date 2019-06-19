@@ -123,6 +123,7 @@ namespace cclib {
                         if(leftChildNode + 1 <= end && sortValue[leftChildNode] < sortValue[leftChildNode + 1]) {
                             leftChildNode++;
                         }
+
                         if(sortValue[parentNode] > sortValue[leftChildNode]) {
                             return;
                         } else {
