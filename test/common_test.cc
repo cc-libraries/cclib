@@ -7,10 +7,19 @@ cc_size_t foo() {
     return cc;
 }
 
+void foo1() {
+    int a = 4;
+    int b = 7;
+    int c = MAX_VALUE(a, b);
+    std::cout << "max value: " << c << std::endl;
+
+    int d = MIN_VALUE(a, b);
+    std::cout << "min value: " << d << std::endl;
+}
+
 int main(int argc, char const *argv[])
 {
     /* code */
-    cc_size_t a = foo();
-    std::cout << "a: " << a << std::endl;
+    foo1();
     return 0;
 }

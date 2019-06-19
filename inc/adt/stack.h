@@ -44,6 +44,10 @@ namespace cclib {
                     return *(--itr);
                 }
 
+                cc_size_t size() {
+                    return _M_vector->size();
+                }
+
             private:
                 Vector<T>* _M_vector;
         };
