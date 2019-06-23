@@ -2,6 +2,7 @@
 #include <iostream>
 #include "./../inc/adt/vector.h"
 #include "./../cclib-common/inc/util/util.h"
+#include "./../inc/algorithm/binary/binary.h"
 
 using namespace std;
 
@@ -57,9 +58,16 @@ void vectorTest() {
     bb.push_back(3);
 }
 
+void foo() {
+    cclib::algorithm::Binary aa;
+    aa.increase();
+    aa.increase();
+    aa.increase();
+}
+
 int main(int argc, char const *argv[])
 {
     /* code */
-    vectorTest();
+    foo();
     return 0;
 }
