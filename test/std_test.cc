@@ -82,9 +82,21 @@ void foo3() {
     cout << a << endl;
 }
 
+void foo4() {
+    list<int> aa;
+    list<int>::iterator itr = aa.begin();
+    list<int>::iterator itr1 = aa.end();
+
+    if(itr == ++itr1) {
+        cout << "1 " << endl;
+    } else {
+        cout << "0 " << endl;
+    }
+}
+
 int main(int argc, char const *argv[])
 {
     /* code */
-    foo3();
+    foo4();
     return 0;
 }

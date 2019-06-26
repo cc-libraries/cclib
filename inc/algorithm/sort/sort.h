@@ -14,6 +14,7 @@
 
 #include "./../../../cclib-common/inc/util/util.h"
 #include "./../../adt/vector.h"
+#include <algorithm>
 
 using namespace cclib;
 using namespace cclib::adt;
@@ -31,6 +32,20 @@ namespace cclib {
                                 swap(&sortValue[n], &sortValue[n+1]);
                             }
                         }
+                    }
+                }
+
+                void selectSort(Vector<Comparable>& sortValue) {
+                    for(int i = 0; i < sortValue.size(); i++) {
+                        cc_size_t minValue = i;
+                        for(int n = i; n < sortValue.size() - 1; n++) {
+                            if(sortValue[minValue] > sortValue[n+1]) {
+                                minValue = n + 1;
+                            }
+                        }
+
+                        if(i == minValue) continue;
+                        swap(sortValue[i], sortValue[minValue]);
                     }
                 }
 
