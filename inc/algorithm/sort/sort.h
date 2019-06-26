@@ -12,16 +12,28 @@
 #ifndef CCLIB_ALGORITHM_SORT_H
 #define CCLIB_ALGORITHM_SORT_H
 
+#include "./../../../cclib-common/inc/util/util.h"
 #include "./../../adt/vector.h"
 
 using namespace cclib;
 using namespace cclib::adt;
+using namespace cclib::common::util;
 
 namespace cclib {
     namespace algorithm {
         template<typename Comparable>
         class Sort {
             public:
+                void bubbleSort(Vector<Comparable>& sortValue) {
+                    for(int i = 0; i < sortValue.size(); i++) {
+                        for(int n = 0; n < sortValue.size() - i - 1; n++) {
+                            if(sortValue[n] > sortValue[n+1]) {
+                                swap(&sortValue[n], &sortValue[n+1]);
+                            }
+                        }
+                    }
+                }
+
                 void insertionSort(Vector<Comparable>& sortValue) {
                     int j;
                     for(int p = 1; p < sortValue.size(); p++) {
@@ -54,7 +66,7 @@ namespace cclib {
                         percDown(sortValue, i, sortValue.size());
                     }
                     for(int j = sortValue.size() - 1; j > 0; j--) {
-                        std::swap(sortValue[0], sortValue[j]);
+                        swap(sortValue[0], sortValue[j]);
                         percDown(sortValue, 0, j - 1);
                         // percDown(sortValue, 0, j); //NOTICE: method 2
                     }
@@ -127,7 +139,7 @@ namespace cclib {
                         if(sortValue[parentNode] > sortValue[leftChildNode]) {
                             return;
                         } else {
-                            std::swap(sortValue[parentNode], sortValue[leftChildNode]);
+                            swap(sortValue[parentNode], sortValue[leftChildNode]);
                             parentNode = leftChildNode;
                             leftChildNode = leftChild(parentNode);
                         }
