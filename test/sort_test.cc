@@ -84,7 +84,7 @@ int main(int argc, char const *argv[])
     // cout << "insertion sort time spend: " << timeComplexityCalculate(start, end) << endl;
 
     Sort<int>* sortClass = new Sort<int>();
-    insertSortTest(sortClass);
+    shellSortTest(sortClass);
     delete sortClass;
     sortClass = NULL;
     return 0;

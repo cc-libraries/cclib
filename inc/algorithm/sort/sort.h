@@ -76,9 +76,10 @@ namespace cclib {
                     for(int gap = sortValue.size() / 2; gap > 0; gap /= 2) {
                         for(int i = gap; i < sortValue.size(); i++) {
                             Comparable tmp = sortValue[i];
-                            for(int j = i; j >= gap && tmp < sortValue[j - gap]; j -= gap) {
-                                sortValue[j] = sortValue[j - gap];
-                                sortValue[j-gap] = tmp;
+                            for(int j = i; j >= gap; j -= gap) {
+                                if(sortValue[j] < sortValue[j - gap]) {
+                                    swap(sortValue[j], sortValue[j - gap]);
+                                }
                             }
                         }
                     }
