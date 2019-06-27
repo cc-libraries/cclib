@@ -49,6 +49,18 @@ namespace cclib {
                     }
                 }
 
+                void insertSort(Vector<Comparable>& sortValue) {
+                    for(int i = 1; i < sortValue.size(); i++) {
+                        for(int n = i; n > 0; n--) {
+                            if(sortValue[n] < sortValue[n-1]) {
+                                swap(sortValue[n], sortValue[n-1]);
+                            } else {    //NOTICE: reduce unnecessary steps
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 void insertionSort(Vector<Comparable>& sortValue) {
                     int j;
                     for(int p = 1; p < sortValue.size(); p++) {
