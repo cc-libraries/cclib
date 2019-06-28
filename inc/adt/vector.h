@@ -106,6 +106,15 @@ namespace cclib {
                     return true;
                 }
 
+                bool push_back(const T* data) {
+                    if(_size == _storage_count) {
+                        doubleExpansion();
+                    }
+
+                    _M_array[_storage_count++] = *data;
+                    return true;
+                }
+
                 bool pop_back() {
                     _M_array[--_storage_count] = T();
                     return true;
