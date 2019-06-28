@@ -37,7 +37,7 @@ namespace cclib {
 
             public:
                 explicit Vector(cc_size_t num = 0) : _size(0 == num ? 1 : num), _storage_count(0), _M_array(CC_NULL) {
-                    _M_array = new T[_size];
+                    _M_array = new T[_size]();
                  }
 
                 Vector(const Vector<T>& instance) : _size(instance._size), _storage_count(instance._storage_count) {
@@ -45,7 +45,7 @@ namespace cclib {
                 }
 
                 Vector(Iterator begin, Iterator end) : _size(begin - end), _storage_count(_size) {
-                    _M_array = new T[_size];
+                    _M_array = new T[_size]();
                     for(int i = 0; i < _size; i++) {
                         _M_array[i] = *(begin + i);
                     }
@@ -61,7 +61,7 @@ namespace cclib {
                     _storage_count = instance._storage_count;
 
                     //NOTICE: _M_array will be delete when stack pop or heap delete
-                    _M_array = new T[_size];
+                    _M_array = new T[_size]();
                     for(int i = 0; i < _storage_count; i++) {
                         _M_array[i] = instance._M_array[i];
                     }
@@ -123,7 +123,7 @@ namespace cclib {
                         doubleExpansion();
                     }
 
-                    T* temp = new T[_size];
+                    T* temp = new T[_size]();
                     for(int i = 0; i < index; i++) {
                         temp[i] = _M_array[i];
                     }
@@ -161,7 +161,7 @@ namespace cclib {
             private:
                 void doubleExpansion() {
                     _size = 2 * _size + 1;
-                    T* temp = new T[_size];
+                    T* temp = new T[_size]();
                     for(int i = 0; i < _storage_count; i++) {    //NOTICE: memcpy is the same time complexity O(n)
                         temp[i] = _M_array[i];
                     }
