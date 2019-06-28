@@ -44,7 +44,7 @@ namespace cclib {
                     operator=(instance);
                 }
 
-                Vector(Iterator begin, Iterator end) : _size(begin - end), _storage_count(_size) {
+                Vector(Iterator begin, Iterator end) : _size(end - begin + 1), _storage_count(_size) {
                     _M_array = new T[_size]();
                     for(int i = 0; i < _size; i++) {
                         _M_array[i] = *(begin + i);

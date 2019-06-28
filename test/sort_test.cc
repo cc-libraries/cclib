@@ -99,7 +99,6 @@ void countSortTest(Sort<int>* sortClass) {
 void radixSortTest(Sort<int>* sortClass) {
     Vector<int> sortValue = getStackVectorValue();
     sortClass->radixSort(sortValue);
-    std::cout << "radix" << std::endl;
     cclib::common::util::printVectorValue(sortValue);
 }
 
@@ -117,7 +116,7 @@ int main(int argc, char const *argv[])
     // cout << "insertion sort time spend: " << timeComplexityCalculate(start, end) << endl;
 
     Sort<int>* sortClass = new Sort<int>();
-    radixSortTest(sortClass);
+    mergeSortTest(sortClass);
     delete sortClass;
     sortClass = NULL;
     return 0;

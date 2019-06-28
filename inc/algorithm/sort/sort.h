@@ -205,6 +205,15 @@ namespace cclib {
                     quickSort(sortValue, left+1, end);
                 }
 
+                void mergeSort(std::vector<Comparable>& sortValue, int left, int right) {
+                    if(left < right) {
+                        int center = (left + right) / 2;
+                        mergeSort(sortValue, left, center);
+                        mergeSort(sortValue, center + 1, right);
+                        merge(sortValue, left, center, right);
+                    }
+                }
+
                 void merge(std::vector<Comparable>& sortValue, int left, int center, int right) {
                     std::cout << "merge left: " << left << " center: " << center << " right: " << right << std::endl;
                     std::vector<Comparable> leftSubArray(sortValue.begin() + left, sortValue.begin() + center);
@@ -225,7 +234,7 @@ namespace cclib {
                     }
                 }
 
-                void mergeSort(std::vector<Comparable>& sortValue, int left, int right) {
+                void mergeSort(Vector<Comparable>& sortValue, int left, int right) {
                     if(left < right) {
                         int center = (left + right) / 2;
                         mergeSort(sortValue, left, center);
@@ -235,29 +244,16 @@ namespace cclib {
                 }
 
                 void merge(Vector<Comparable>& sortValue, int left, int center, int right) {
-                    std::cout << "merge left: " << left << " center: " << center << " right: " << right << std::endl;
                     Vector<Comparable> leftSubArray(sortValue.begin() + left, sortValue.begin() + center);
-                    std::cout << "error: " << std::endl;
                     Vector<Comparable> rightSubArray(sortValue.begin() + center + 1, sortValue.begin() + right);
-                    std::cout << "error1: " << std::endl;
                     int idxLeft = 0, idxRight = 0;
-                    //COMMENT: insert max value to compare when the left or right array is none
-                    leftSubArray.insert(leftSubArray.end(), std::numeric_limits<Comparable>::max());
-                    rightSubArray.insert(rightSubArray.end(), std::numeric_limits<Comparable>::max());
+                    //COMMENT: push max value to end to compare when the left or right array is none
+                    leftSubArray.push_back(std::numeric_limits<Comparable>::max());
+                    rightSubArray.push_back(std::numeric_limits<Comparable>::max());
 
                     for (int i = left; i <= right; i++) {
                         sortValue[i] = leftSubArray[idxLeft] < rightSubArray[idxRight]
                          ? leftSubArray[idxLeft++] : rightSubArray[idxRight++];
-                    }
-                }
-
-                void mergeSort(Vector<Comparable>& sortValue, int left, int right) {
-                    if(left < right) {
-                        int center = (left + right) / 2;
-                        std::cout << "left: " << left << " center: " << center << " right: " << right << std::endl;
-                        mergeSort(sortValue, left, center);
-                        mergeSort(sortValue, center + 1, right);
-                        merge(sortValue, left, center, right);
                     }
                 }
 
