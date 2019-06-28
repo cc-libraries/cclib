@@ -60,12 +60,6 @@ void mergeSortTest(Sort<int>* sortClass) {
     cclib::common::util::printVectorValue(sortValue);
 }
 
-void mergeSortTest1(Sort<int>* sortClass) {
-    std::vector<int> sortValue = getStackVectorValue1();
-    sortClass->mergeSort(sortValue);
-    cclib::common::util::printVectorValue(sortValue);
-}
-
 void quickSortTest(Sort<int>* sortClass) {
     Vector<int> sortValue = getStackVectorValue();
     sortClass->quickSort(sortValue);

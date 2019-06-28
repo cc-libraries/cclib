@@ -3,6 +3,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include "./../cclib-common/inc/util/util.h"
 
 using namespace std;
 
@@ -131,9 +132,35 @@ void foo6() {
     cout << "a: " << a << endl;
 }
 
+
+void merge(std::vector<int>& sortValue, int left, int center, int right) {
+    std::cout << "merge left: " << left << " center: " << center << " right: " << right << std::endl;
+    std::vector<int> leftSubArray(sortValue.begin() + left, sortValue.begin() + center);
+    cclib::common::util::printVectorValue(sortValue);
+    std::cout << "aaaaa" << std::endl;
+    cclib::common::util::printVectorValue(leftSubArray);
+    std::cout << "error: " << std::endl;
+    std::vector<int> rightSubArray(sortValue.begin() + center + 1, sortValue.begin() + right);
+    cclib::common::util::printVectorValue(rightSubArray);
+    std::cout << "error1: " << std::endl;
+}
+
+void foo7() {
+    vector<int> aa = {11, 12, 13, 14};
+    merge(aa, 0, 0, 1);
+    cclib::common::util::printVectorValue(aa);
+    vector<int> bb(aa.begin(), aa.begin()+1);
+    cclib::common::util::printVectorValue(bb);
+}
+
+void foo8() {
+    int* a = new int[0]();
+    cout << "a: " << a[0] << endl;
+}
+
 int main(int argc, char const *argv[])
 {
     /* code */
-    foo6();
+    foo8();
     return 0;
 }
