@@ -22,6 +22,20 @@ inline Vector<int> getStackVectorValue() {
     return vectorValue;
 }
 
+std::vector<int> getStackVectorValue1() {
+    std::vector<int> vectorValue;
+    vectorValue.push_back(4);
+    vectorValue.push_back(12);
+    vectorValue.push_back(3);
+    vectorValue.push_back(115);
+    vectorValue.push_back(15);
+    vectorValue.push_back(11);
+    vectorValue.push_back(2);
+    // vectorValue.push_back(22);
+    cclib::common::util::printVectorValue(vectorValue);
+    return vectorValue;
+}
+
 void insertionSortTest(Sort<int>* sortClass) {
     Vector<int> sortValue = getStackVectorValue();
     sortClass->insertionSort(sortValue);
@@ -42,6 +56,12 @@ void heapSortTest(Sort<int>* sortClass) {
 
 void mergeSortTest(Sort<int>* sortClass) {
     Vector<int> sortValue = getStackVectorValue();
+    sortClass->mergeSort(sortValue);
+    cclib::common::util::printVectorValue(sortValue);
+}
+
+void mergeSortTest1(Sort<int>* sortClass) {
+    std::vector<int> sortValue = getStackVectorValue1();
     sortClass->mergeSort(sortValue);
     cclib::common::util::printVectorValue(sortValue);
 }
@@ -84,7 +104,7 @@ int main(int argc, char const *argv[])
     // cout << "insertion sort time spend: " << timeComplexityCalculate(start, end) << endl;
 
     Sort<int>* sortClass = new Sort<int>();
-    shellSortTest(sortClass);
+    quickSortTest(sortClass);
     delete sortClass;
     sortClass = NULL;
     return 0;
