@@ -94,9 +94,46 @@ void foo4() {
     }
 }
 
+void foo5() {
+    if(0.0f == float()) {
+        cout << "float" << endl;
+    }
+
+    if(0 == float()) {
+        cout << "float1" << endl;
+    }
+}
+
+int pow(int x, unsigned int n) {
+    if(0 == n) {
+        if(int() == x) {
+            return -1;
+        }
+
+        return 1;
+    }
+
+    for(int i = 1; i < n; i++) {
+        x *= x;
+    }
+
+    return x;
+}
+
+int spliteIntDigit(int value, int index) {
+    int divValue = value / pow(10, index-1);
+    return 0 == divValue ? -1 : divValue % 10;
+}
+
+void foo6() {
+    cout << "foo6" << endl;
+    int a = spliteIntDigit(3, 2);
+    cout << "a: " << a << endl;
+}
+
 int main(int argc, char const *argv[])
 {
     /* code */
-    foo4();
+    foo6();
     return 0;
 }

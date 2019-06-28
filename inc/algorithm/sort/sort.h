@@ -107,25 +107,73 @@ namespace cclib {
                     quickSort(sortValue, 0, sortValue.size() - 1);
                 }
 
-                void countSort(Vector<Comparable>& sortValue) {
+                //DEPRECATED:
+                void countSort(Vector<int>& sortValue) {
                     for(int i = 0; i < sortValue.size() - 1; i++) {
                         if(sortValue[i] > sortValue[i+1]) {
                             swap(sortValue[i], sortValue[i+1]);
                         }
                     }
-                    Comparable maxValue = sortValue[sortValue.size()-1];
+                    int maxValue = sortValue[sortValue.size()-1];
 
-                    Comparable* array = new Comparable[maxValue+1]();
+                    int* array = new int[maxValue+1]();
 
                     for(int i = 0; i < sortValue.size(); i++) {
                         array[sortValue[i]]++;
                     }
 
-                    sortValue.clear();
+                    sortValue.clear();  //FIXME: array is better
                     for(int i = 0; i < maxValue + 1; i++) {
                         while(0 != array[i]) {
                             sortValue.push_back(i);
                             array[i]--;
+                        }
+                    }
+                }
+
+                //DEPRECATED:
+                void radixSort(Vector<int>& sortValue) {
+                    Vector<Vector<int>> array;   //FIXME: array is better
+                    array.push_back(new Vector<int>());
+                    array.push_back(new Vector<int>());
+                    array.push_back(new Vector<int>());
+                    array.push_back(new Vector<int>());
+                    array.push_back(new Vector<int>());
+                    array.push_back(new Vector<int>());
+                    array.push_back(new Vector<int>());
+                    array.push_back(new Vector<int>());
+                    array.push_back(new Vector<int>());
+                    array.push_back(new Vector<int>());
+
+                    for(int i = 0; i < sortValue.size() - 1; i++) {
+                        if(sortValue[i] > sortValue[i+1]) {
+                            swap(sortValue[i], sortValue[i+1]);
+                        }
+                    }
+                    int maxValue = sortValue[sortValue.size()-1];
+
+                    int flag = 0;
+                    while(maxValue != 0) {
+                        maxValue /= 10;
+                        flag++;
+                    }
+
+                    for(int i = 1; i <= flag; i++) {
+                        for(int n = 0; n < 10; n++) {
+                            array[n].clear();
+                        }
+
+                        for(int n = 0; n < sortValue.size(); n++) {
+                            int remainder = spliteIntDigit(sortValue[n], i);
+
+                            array[remainder].push_back(sortValue[n]);
+                        }
+
+                        sortValue.clear();  //FIXME: array is better
+                        for(int j = 0; j < 10; j++) {
+                            for(int n = 0; n < array[j].size(); n++) {
+                                sortValue.push_back(array[j][n]);
+                            }
                         }
                     }
                 }
