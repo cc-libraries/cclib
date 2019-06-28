@@ -90,6 +90,12 @@ void insertSortTest(Sort<int>* sortClass) {
     cclib::common::util::printVectorValue(sortValue);
 }
 
+void countSortTest(Sort<int>* sortClass) {
+    Vector<int> sortValue = getStackVectorValue();
+    sortClass->countSort(sortValue);
+    cclib::common::util::printVectorValue(sortValue);
+}
+
 // int timeComplexityCalculate(clock_t startTime, clock_t endTime) {
 //     return endTime - startTime;
 // }
@@ -104,7 +110,7 @@ int main(int argc, char const *argv[])
     // cout << "insertion sort time spend: " << timeComplexityCalculate(start, end) << endl;
 
     Sort<int>* sortClass = new Sort<int>();
-    quickSortTest(sortClass);
+    countSortTest(sortClass);
     delete sortClass;
     sortClass = NULL;
     return 0;

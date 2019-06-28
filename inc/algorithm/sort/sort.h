@@ -107,6 +107,29 @@ namespace cclib {
                     quickSort(sortValue, 0, sortValue.size() - 1);
                 }
 
+                void countSort(Vector<Comparable>& sortValue) {
+                    for(int i = 0; i < sortValue.size() - 1; i++) {
+                        if(sortValue[i] > sortValue[i+1]) {
+                            swap(sortValue[i], sortValue[i+1]);
+                        }
+                    }
+                    Comparable maxValue = sortValue[sortValue.size()-1];
+
+                    Comparable* array = new Comparable[maxValue+1]();
+
+                    for(int i = 0; i < sortValue.size(); i++) {
+                        array[sortValue[i]]++;
+                    }
+
+                    sortValue.clear();
+                    for(int i = 0; i < maxValue + 1; i++) {
+                        while(0 != array[i]) {
+                            sortValue.push_back(i);
+                            array[i]--;
+                        }
+                    }
+                }
+
             private:
                 void quickSort(Vector<Comparable>& sortValue, int start, int end) {
                     if(start >= end) return;
