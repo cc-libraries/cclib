@@ -99,7 +99,6 @@ namespace cclib {
                     for(int j = sortValue.size() - 1; j > 0; j--) {
                         swap(sortValue[0], sortValue[j]);
                         percDown(sortValue, 0, j - 1);
-                        // percDown(sortValue, 0, j); //NOTICE: method 2
                     }
                 }
 
@@ -236,7 +235,7 @@ namespace cclib {
                     parentNode = start;
                     leftChildNode = leftChild(parentNode);
                     while(leftChildNode <= end) {
-                        //COMMENT: get max node between left to right
+                        //COMMENT: find max node between left to right
                         if(leftChildNode + 1 <= end && sortValue[leftChildNode] < sortValue[leftChildNode + 1]) {
                             leftChildNode++;
                         }
@@ -249,21 +248,6 @@ namespace cclib {
                             leftChildNode = leftChild(parentNode);
                         }
                     }
-
-                    //NOTICE: method 2 not clearly than method 1
-                    // Comparable tmp;
-                    // for(tmp = sortValue[parentNode]; leftChild(parentNode) < end; parentNode = leftChildNode) {
-                    //     leftChildNode = leftChild(parentNode);
-                    //     if(leftChildNode != end - 1 && sortValue[leftChildNode] < sortValue[leftChildNode + 1]) {
-                    //         leftChildNode++;
-                    //     }
-                    //     if(tmp < sortValue[leftChildNode]) {
-                    //         sortValue[parentNode] = sortValue[leftChildNode];
-                    //     } else {
-                    //         break;
-                    //     }
-                    // }
-                    // sortValue[parentNode] = tmp;
                 }
         };
     }
