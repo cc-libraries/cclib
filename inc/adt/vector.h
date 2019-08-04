@@ -14,6 +14,10 @@
 
 #include "./../../cclib-common/inc/base/common_define.h"
 
+#if __cplusplus >= 201103L
+#include <initializer_list>
+#endif
+
 namespace cclib {
     namespace adt {
         // template<typename T>
@@ -33,7 +37,7 @@ namespace cclib {
         template<typename T>
         class Vector {
             public:
-                typedef T*    Iterator;
+                typedef const T*    Iterator;
 
             public:
                 explicit Vector(cc_size_t num = 0) : _size(0 == num ? 1 : num), _storage_count(0), _M_array(CC_NULL) {
@@ -50,6 +54,21 @@ namespace cclib {
                         _M_array[i] = *(begin + i);
                     }
                 }
+
+                //NOTICE: C++11 feature
+                #if __cplusplus >= 201103L
+                Vector(const std::initializer_list<T>& args) : _size(args.size()), _storage_count(_size) {
+                    operator=(args);
+                }
+
+                Vector<T>& operator=(const std::initializer_list<T>& args) {
+                    _storage_count = _size = args.size();
+                    _M_array = new T[_size]();
+                    for(int i = 0; i < _size; i++) {
+                        _M_array[i] = *(args.begin() + i);
+                    }
+                }
+                #endif
 
                 ~Vector() {
                     delete[] _M_array;

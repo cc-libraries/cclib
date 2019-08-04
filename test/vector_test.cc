@@ -59,10 +59,8 @@ void vectorTest() {
 }
 
 void foo() {
-    cclib::algorithm::Binary aa;
-    aa.increase();
-    aa.increase();
-    aa.increase();
+    Vector<int> aa = {1,2,3};
+    cclib::common::util::printVectorValue(aa);
 }
 
 int main(int argc, char const *argv[])

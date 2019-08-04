@@ -29,25 +29,25 @@ namespace cclib {
                         return value;
                     }
                     Vector<int>::Iterator itr = value.end();
-                    Vector<int> va = increaseFixUP(value, itr);
+                    // Vector<int> va = increaseFixUP(value, itr);
                     cclib::common::util::printVectorValue(value);
                 }
 
             private:
-                Vector<int> increaseFixUP(Vector<int>& val, Vector<int>::Iterator& itr) {
-                    if(0 == *itr) {
-                        *itr = 1;
-                    } else {
-                        if(itr == val.begin()) {
-                            val.push_back(0);
-                        } else {
-                            *itr-- = 0;
-                            increaseFixUP(val, itr);
-                        }
-                    }
+                // Vector<int> increaseFixUP(Vector<int>& val, Vector<int>::Iterator& itr) {
+                //     if(0 == *itr) {
+                //         *itr = 1;
+                //     } else {
+                //         if(itr == val.begin()) {
+                //             val.push_back(0);
+                //         } else {
+                //             *itr-- = 0;
+                //             increaseFixUP(val, itr);
+                //         }
+                //     }
 
-                    return val;
-                }
+                //     return val;
+                // }
 
                 Vector<int> value;
         };
