@@ -67,6 +67,8 @@ namespace cclib {
                     for(int i = 0; i < _size; i++) {
                         _M_array[i] = *(args.begin() + i);
                     }
+
+                    return *this;
                 }
                 #endif
 

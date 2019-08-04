@@ -23,15 +23,15 @@ namespace cclib {
     namespace algorithm {
         class Binary {
             public:
-                Vector<int> increase() {
-                    if(0 == value.size()) {
-                        value.push_back(0);
-                        return value;
-                    }
-                    Vector<int>::Iterator itr = value.end();
-                    // Vector<int> va = increaseFixUP(value, itr);
-                    cclib::common::util::printVectorValue(value);
-                }
+                // Vector<int> increase() {
+                    // if(0 == value.size()) {
+                    //     value.push_back(0);
+                    //     return value;
+                    // }
+                    // Vector<int>::Iterator itr = value.end();
+                    // // Vector<int> va = increaseFixUP(value, itr);
+                    // cclib::common::util::printVectorValue(value);
+                // }
 
             private:
                 // Vector<int> increaseFixUP(Vector<int>& val, Vector<int>::Iterator& itr) {
