@@ -184,21 +184,12 @@ namespace cclib {
                     int left = start, right = end - 1;
                     Comparable endValue = sortValue[end];
 
-                    while(right > left) {
-                        if((sortValue[left] > endValue) && (sortValue[right] < endValue)) {
-                            swap(sortValue[left++], sortValue[right--]);
-                        } else {
-                            if(sortValue[left] < endValue) {
-                                left++;
-                            } else {
-                                right--;
-                            }
+                    for(int i = 0; i < right; i++) {
+                        if(sortValue[i] <= endValue) {
+                            swap(sortValue[left++], sortValue[i]);
                         }
                     }
-
-                    if(sortValue[left] > sortValue[end]) {
-                        swap(sortValue[left], sortValue[end]);
-                    }
+                    swap(sortValue[left], sortValue[end]);
 
                     quickSort(sortValue, start, left-1);
                     quickSort(sortValue, left+1, end);
