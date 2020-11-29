@@ -184,7 +184,7 @@ namespace cclib {
                     int left = start, right = end - 1;
                     Comparable endValue = sortValue[end];
 
-                    for(int i = 0; i < right; i++) {
+                    for(int i = 0; i <= right; i++) {
                         if(sortValue[i] <= endValue) {
                             swap(sortValue[left++], sortValue[i]);
                         }
